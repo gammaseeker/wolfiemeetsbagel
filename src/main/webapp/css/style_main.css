@@ -1,0 +1,30 @@
+.indxContainer{
+    width: 30%;
+}
+
+.card{
+    height: 100%;
+    background: black !important;
+}
+
+.card-title{
+    color: white;
+}
+
+.btn{
+    width: 100% !important;
+    margin: 2% !important;
+}
+
+html{
+    overflow: auto;
+}
+
+.form-control{
+    border: 2px solid #112233;
+}
+
+.btn-bet{
+    width: 50% !important;
+    margin: 15px 0 !important;
+}
