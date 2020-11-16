@@ -1,6 +1,7 @@
 .DS_Store
 *target*
 .metadata
+.idea
 bin/
 tmp/
 *.tmp
