@@ -38,13 +38,12 @@ public class GetDatesByCalendarDateController extends HttpServlet {
          * This method redirects to the Customer Listing page
          */
 
-//		String searchKeyword = request.getParameter("calendar_date");
+		String searchKeyword = request.getParameter("calendar_date");
 
         DateDao dao = new DateDao();
         List<Date> dates = new ArrayList<>();
-        dates = dao.getDatesByCalendar("12-12-2020");
-
-        request.setAttribute("date","12-12-2020");
+        dates = dao.getDatesByCalendar(searchKeyword);
+        request.setAttribute("date", request.getParameter("calendar_date"));
         request.setAttribute("dates", dates);
         RequestDispatcher rd = request.getRequestDispatcher("showDatesByCalendar.jsp");
         rd.forward(request, response);
