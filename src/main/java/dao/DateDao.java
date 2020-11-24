@@ -15,6 +15,27 @@ public class DateDao {
 	static final String DB_URL = "jdbc:mysql://localhost:3306/wolfiemeetsbagel";
 
     public String addDate(Date date) {
+    	try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+
+			st.executeUpdate(""
+				+ "INSERT INTO date VALUES ("
+				+ date.getUser1ID() + ", " 
+				+ date.getUser2ID() + ", "
+				+ date.getCustRepresentative() + ", "
+				+ date.getDate() + ", "
+				+ date.getGeolocation() + ", "
+				+ date.getBookingfee() + ", "
+				+ date.getComments() + ", "
+				+ date.getUser1Rating() + ", "
+				+ date.getUser2Rating() + ") ");
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Failed";
+    	}
     	return "Success";
     }
 
