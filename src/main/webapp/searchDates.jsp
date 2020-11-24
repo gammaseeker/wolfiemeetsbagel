@@ -45,8 +45,10 @@
 					    <h5 class="card-title">Search by Customer</h5>
     					<div class="container">
 							<form method="POST" action="searchDatesByCustomerName">
-								<label for="customerName">Customer Name:</label>
-	    						<input type="text" class="form-control" id="customerName" name="customerName" placeholder="Type Customer Name">
+								<label for="customerFirstName">Customer First Name:</label>
+	    						<input type="text" class="form-control" id="customerFirstName" name="customerFirstName" placeholder="Type Customer First Name">
+								<label for="customerFirstName">Customer Last Name:</label>
+	    						<input type="text" class="form-control" id="customerLastName" name="customerLastName" placeholder="Type Customer Last Name">
 								<br/>
 								<input type="submit" value="Search" class="btn btn-primary btn-bet"/>
 							</form>
