@@ -20,17 +20,17 @@ public class DateDao {
 			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
 			Statement st = con.createStatement();
 
-			st.executeUpdate(""
-				+ "INSERT INTO date VALUES ("
-				+ date.getUser1ID() + ", " 
-				+ date.getUser2ID() + ", "
-				+ date.getCustRepresentative() + ", "
-				+ date.getDate() + ", "
-				+ date.getGeolocation() + ", "
-				+ date.getBookingfee() + ", "
-				+ date.getComments() + ", "
-				+ date.getUser1Rating() + ", "
-				+ date.getUser2Rating() + ") ");
+			st.execute(""
+				+ "INSERT INTO date VALUES (\'"
+				+ date.getUser1ID() + "\', \'" 
+				+ date.getUser2ID() + "\', \'"
+				+ date.getCustRepresentative() +"\', \'" 
+				+ date.getDate() +"\', \'"
+				+ date.getGeolocation() +"\', \'"
+				+ date.getBookingfee() +"\', \'"
+				+ date.getComments() +"\', \'"
+				+ date.getUser1Rating() +"\', \'"
+				+ date.getUser2Rating() +"\') ");
     	} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
