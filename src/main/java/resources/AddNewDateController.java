@@ -42,20 +42,39 @@ public class AddNewDateController extends HttpServlet {
 		// TODO Auto-generated method stub
 
 //		Get Data from request in this way
-//		String email = request.getParameter("employeeEmail");
-
+		String user1ID = request.getParameter("user1ID");
+		String user2ID = request.getParameter("user2ID");
+		String dateTime = request.getParameter("date");
+		String location = request.getParameter("Location");
+		String fee = request.getParameter("fee");
+		String custRep = request.getParameter("custRep");
+		String comments = request.getParameter("Comments");
+		String user1Rating = request.getParameter("user1Rating");
+		String user2Rating = request.getParameter("user2Rating");
 
 		Date date = new Date();
 		date.setDateID("1");
+		date.setUser1ID(user1ID);
+		date.setUser2ID(user2ID);
+		date.setDate(dateTime);
+		date.setGeolocation(location);
+		date.setBookingfee(fee);
+		date.setCustRepresentative(custRep);
+		date.setComments(comments);
+		date.setUser1Rating(user1Rating);
+		date.setUser2Rating(user2Rating);
+		/*
+		date.setDateID("1");
 		date.setUser1ID("111");
 		date.setUser2ID("222");
-		date.setDate("12-12-1222");
+		date.setDate("12-12-1222"); // TODO looks like we only consider date and not time
 		date.setGeolocation("Himachal");
 		date.setBookingfee("22");
 		date.setCustRepresentative("Tom Alter");
 		date.setComments("First date");
 		date.setUser1Rating("1");
 		date.setUser2Rating("2");
+		*/
 
 		DateDao dao = new DateDao();
 		String result = dao.addDate(date);
