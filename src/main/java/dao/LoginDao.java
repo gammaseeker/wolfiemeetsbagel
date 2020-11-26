@@ -76,6 +76,27 @@ public class LoginDao {
 		 */
 		
 		/*Sample data begins*/
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+			
+			String checkUsername = "SELECT *"
+								+  "FROM Person"
+								+  "WHERE Email='" + login.getUsername() + "';";
+			
+			ResultSet rs = st.executeQuery(checkUsername);
+			
+			if (rs.next() == false) {
+				return "failure";
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println(e);
+			return "failure";
+		}
+		
 		return "success";
 		/*Sample data ends*/
 	}
