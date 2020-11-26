@@ -114,28 +114,29 @@ public class DateDao {
 					+ customerFirstName + "\' "
 					+ "AND person.LastName = \'"
 					+ customerLastName + "\' ";
-
-			String outerQuery = 
-					"SELECT * "
-					+ "FROM date "
-					+ "WHERE Profile1 = (" + innerQuery + ")"
-					+ "OR Profile2 = (" + innerQuery + ")";
-			ResultSet rs = st.executeQuery(outerQuery);
-			
+			ResultSet rs = st.executeQuery(innerQuery);
 			while(rs.next()) {
-				Date date = new Date();
-				date.setDateID("69"); // TODO determine how to create DateID
-				date.setUser1ID(rs.getString("Profile1"));
-				date.setUser2ID(rs.getString("Profile2"));
-				date.setDate(rs.getString("Date_Time"));
-				date.setGeolocation(rs.getString("Location"));
-				date.setBookingfee(Integer.toString(rs.getInt("BookingFee")));
-				date.setCustRepresentative(rs.getString("CustRep"));
-				date.setComments(rs.getString("Comments"));
-				date.setUser1Rating(Integer.toString(rs.getInt("User1Rating")));
-				date.setUser2Rating(Integer.toString(rs.getInt("User2Rating")));
-				dates.add(date);
+				String outerQuery = 
+						"SELECT * FROM date WHERE Profile1 = (\'" + rs.getString("ProfileID") + "\') OR Profile2 = (\'" + rs.getString("ProfileID") + "\')";
+				Statement st2 = con.createStatement();
+				ResultSet rsFinal = st2.executeQuery(outerQuery);
+				while(rsFinal.next()) {
+					Date date = new Date();
+					date.setDateID("69"); // TODO determine how to create DateID
+					date.setUser1ID(rsFinal.getString("Profile1"));
+					date.setUser2ID(rsFinal.getString("Profile2"));
+					date.setDate(rsFinal.getString("Date_Time"));
+					date.setGeolocation(rsFinal.getString("Location"));
+					date.setBookingfee(Integer.toString(rsFinal.getInt("BookingFee")));
+					date.setCustRepresentative(rsFinal.getString("CustRep"));
+					date.setComments(rsFinal.getString("Comments"));
+					date.setUser1Rating(Integer.toString(rsFinal.getInt("User1Rating")));
+					date.setUser2Rating(Integer.toString(rsFinal.getInt("User2Rating")));
+					dates.add(date);
+				}
 			}
+
+			
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
