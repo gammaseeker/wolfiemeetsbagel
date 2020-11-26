@@ -37,13 +37,14 @@ public class GetDatesByCustomerNameController extends HttpServlet {
          * This method redirects to the Customer Listing page
          */
 
-//		String searchKeyword = request.getParameter("customerName");
-
+		String firstName = request.getParameter("customerFirstName");
+		String lastName = request.getParameter("customerLastName");
+		String fullName = firstName + " " + lastName;
         DateDao dao = new DateDao();
         List<Date> dates = new ArrayList<>();
-        dates = dao.getDatesByCustomerName("Song Hye Kyu");
+        dates = dao.getDatesByCustomerName(firstName, lastName);
 
-        request.setAttribute("customer","Song Hye Kyu");
+        request.setAttribute("customer", fullName);
         request.setAttribute("dates", dates);
         RequestDispatcher rd = request.getRequestDispatcher("showDatesByCustomerName.jsp");
         rd.forward(request, response);
