@@ -33,13 +33,13 @@ public class ByAgeController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-//		String age = request.getParameter("age");
+		String age = request.getParameter("age");
 
 		ProfileDao dao = new ProfileDao();
-		List<Profile> profiles = dao.getProfilesByAge("21");
+		List<Profile> profiles = dao.getProfilesByAge(age);
 
 		request.setAttribute("profiles", profiles);
-		request.setAttribute("age", "21");
+		request.setAttribute("age", age);
 		RequestDispatcher rd = request.getRequestDispatcher("showByAge.jsp");
 		rd.forward(request, response);
 
