@@ -156,25 +156,39 @@ public class DateDao {
         return dates;
     }
 
-    public List<Date> getHighestRatedCalendarDate() {
+    public List<Date> getHighestRatedCalendarDate(String calendarDate) {
+
         List<Date> dates = new ArrayList<Date>();
 
-        /*Sample data begins*/
-        for (int i = 0; i < 10; i++) {
-            Date date = new Date();
-            date.setDateID("12313123");
-            date.setUser1ID("1212");
-            date.setUser2ID("2121");
-            date.setDate("12-12-2020");
-            date.setGeolocation("location");
-            date.setBookingfee("21");
-            date.setCustRepresentative("Manoj Pandey");
-            date.setComments("Comments");
-            date.setUser1Rating("3");
-            date.setUser2Rating("3");
-            dates.add(date);
-        }
-        /*Sample data ends*/
+        try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+
+			ResultSet rs = st.executeQuery(""
+					+ "SELECT * "
+					+ "FROM date "
+					+ "WHERE CAST(Date_Time AS DATE) = CAST(\'" + calendarDate + "\' AS DATE) "
+					+ "AND User1Rating >= 3 AND User2Rating >= 3"); 
+			while(rs.next()) {
+				Date date = new Date();
+				date.setDateID("69"); // TODO determine how to create DateID
+				date.setUser1ID(rs.getString("Profile1"));
+				date.setUser2ID(rs.getString("Profile2"));
+				date.setDate(rs.getString("Date_Time"));
+				date.setGeolocation(rs.getString("Location"));
+				date.setBookingfee(Integer.toString(rs.getInt("BookingFee")));
+				date.setCustRepresentative(rs.getString("CustRep"));
+				date.setComments(rs.getString("Comments"));
+				date.setUser1Rating(Integer.toString(rs.getInt("User1Rating")));
+				date.setUser2Rating(Integer.toString(rs.getInt("User2Rating")));
+				dates.add(date);
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         return dates;
     }
