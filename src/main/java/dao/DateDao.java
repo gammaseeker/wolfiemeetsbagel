@@ -2,35 +2,74 @@ package dao;
 
 import model.Date;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DateDao {
 
+	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/wolfiemeetsbagel";
+
     public String addDate(Date date) {
-        return "Success";
+    	try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+
+			st.execute(""
+				+ "INSERT INTO date VALUES (\'"
+				+ date.getUser1ID() + "\', \'" 
+				+ date.getUser2ID() + "\', \'"
+				+ date.getCustRepresentative() +"\', \'" 
+				+ date.getDate() +"\', \'"
+				+ date.getGeolocation() +"\', \'"
+				+ date.getBookingfee() +"\', \'"
+				+ date.getComments() +"\', \'"
+				+ date.getUser1Rating() +"\', \'"
+				+ date.getUser2Rating() +"\') ");
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Failed";
+    	}
+    	return "Success";
     }
 
 
     public List<Date> getDatesByCalendar(String calendarDate) {
-        List<Date> dates = new ArrayList<Date>();
 
-        /*Sample data begins*/
-        for (int i = 0; i < 10; i++) {
-            Date date = new Date();
-            date.setDateID("12313123");
-            date.setUser1ID("1212");
-            date.setUser2ID("2121");
-            date.setDate("12-12-2020");
-            date.setGeolocation("location");
-            date.setBookingfee("21");
-            date.setCustRepresentative("Manoj Pandey");
-            date.setComments("Comments");
-            date.setUser1Rating("3");
-            date.setUser2Rating("3");
-            dates.add(date);
-        }
-        /*Sample data ends*/
+		List<Date> dates = new ArrayList<Date>();
+
+        try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+
+			ResultSet rs = st.executeQuery(""
+					+ "SELECT * FROM date WHERE CAST(Date_Time AS DATE) = CAST(\'" + calendarDate + "\' AS DATE)"); 
+			while(rs.next()) {
+				Date date = new Date();
+				date.setDateID("69"); // TODO determine how to create DateID
+				date.setUser1ID(rs.getString("Profile1"));
+				date.setUser2ID(rs.getString("Profile2"));
+				date.setDate(rs.getString("Date_Time"));
+				date.setGeolocation(rs.getString("Location"));
+				date.setBookingfee(Integer.toString(rs.getInt("BookingFee")));
+				date.setCustRepresentative(rs.getString("CustRep"));
+				date.setComments(rs.getString("Comments"));
+				date.setUser1Rating(Integer.toString(rs.getInt("User1Rating")));
+				date.setUser2Rating(Integer.toString(rs.getInt("User2Rating")));
+				dates.add(date);
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         return dates;
     }
@@ -58,26 +97,51 @@ public class DateDao {
         return dates;
     }
 
-    public List<Date> getDatesByCustomerName(String customerName) {
+    public List<Date> getDatesByCustomerName(String customerFirstName, String customerLastName) {
 
         List<Date> dates = new ArrayList<Date>();
 
-        /*Sample data begins*/
-        for (int i = 0; i < 10; i++) {
-            Date date = new Date();
-            date.setDateID("12313123");
-            date.setUser1ID("1212");
-            date.setUser2ID("2121");
-            date.setDate("12-12-2020");
-            date.setGeolocation("location");
-            date.setBookingfee("21");
-            date.setCustRepresentative("Manoj Pandey");
-            date.setComments("Comments");
-            date.setUser1Rating("3");
-            date.setUser2Rating("3");
-            dates.add(date);
-        }
-        /*Sample data ends*/
+        try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+			String innerQuery = 
+					"SELECT ProfileID "
+					+ "FROM profile "
+					+ "INNER JOIN person "
+					+ "ON profile.OwnerSSN = person.SSN "
+					+ "WHERE person.FirstName = \'"
+					+ customerFirstName + "\' "
+					+ "AND person.LastName = \'"
+					+ customerLastName + "\' ";
+			ResultSet rs = st.executeQuery(innerQuery);
+			while(rs.next()) {
+				String outerQuery = 
+						"SELECT * FROM date WHERE Profile1 = (\'" + rs.getString("ProfileID") + "\') OR Profile2 = (\'" + rs.getString("ProfileID") + "\')";
+				Statement st2 = con.createStatement();
+				ResultSet rsFinal = st2.executeQuery(outerQuery);
+				while(rsFinal.next()) {
+					Date date = new Date();
+					date.setDateID("69"); // TODO determine how to create DateID
+					date.setUser1ID(rsFinal.getString("Profile1"));
+					date.setUser2ID(rsFinal.getString("Profile2"));
+					date.setDate(rsFinal.getString("Date_Time"));
+					date.setGeolocation(rsFinal.getString("Location"));
+					date.setBookingfee(Integer.toString(rsFinal.getInt("BookingFee")));
+					date.setCustRepresentative(rsFinal.getString("CustRep"));
+					date.setComments(rsFinal.getString("Comments"));
+					date.setUser1Rating(Integer.toString(rsFinal.getInt("User1Rating")));
+					date.setUser2Rating(Integer.toString(rsFinal.getInt("User2Rating")));
+					dates.add(date);
+				}
+			}
+
+			
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         return dates;
     }

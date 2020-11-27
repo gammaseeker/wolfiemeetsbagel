@@ -31,13 +31,13 @@ public class ByWeightController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-//		String age = request.getParameter("age");
+		String weight = request.getParameter("weight");
 
 		ProfileDao dao = new ProfileDao();
-		List<Profile> profiles = dao.getProfilesByWeight("22");
+		List<Profile> profiles = dao.getProfilesByWeight(weight);
 
 		request.setAttribute("profiles", profiles);
-		request.setAttribute("weight", "22");
+		request.setAttribute("weight", weight);
 		RequestDispatcher rd = request.getRequestDispatcher("showByWeight.jsp");
 		rd.forward(request, response);
 

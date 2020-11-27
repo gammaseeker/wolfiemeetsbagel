@@ -31,13 +31,13 @@ public class ByHeightController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-//		String age = request.getParameter("age");
+		String height = request.getParameter("height");
 
 		ProfileDao dao = new ProfileDao();
-		List<Profile> profiles = dao.getProfilesByHeight("6");
+		List<Profile> profiles = dao.getProfilesByHeight(height);
 
 		request.setAttribute("profiles", profiles);
-		request.setAttribute("height", "6");
+		request.setAttribute("height", height);
 		RequestDispatcher rd = request.getRequestDispatcher("showByHeight.jsp");
 		rd.forward(request, response);
 
