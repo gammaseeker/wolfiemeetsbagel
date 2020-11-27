@@ -14,6 +14,12 @@ public class DateDao {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/wolfiemeetsbagel";
 
+	private String createDateID(String profile1, String profile2, String dateTime) {
+		String varstr = profile1 + profile2 + dateTime;
+		int hc = Math.abs(varstr.hashCode());
+		return Integer.toString(hc);
+	}
+
     public String addDate(Date date) {
     	try {
 			Class.forName(JDBC_DRIVER);
@@ -52,11 +58,16 @@ public class DateDao {
 			ResultSet rs = st.executeQuery(""
 					+ "SELECT * FROM date WHERE CAST(Date_Time AS DATE) = CAST(\'" + calendarDate + "\' AS DATE)"); 
 			while(rs.next()) {
+				String profile1 = rs.getString("Profile1");
+				String profile2 = rs.getString("Profile2");
+				String dateTime = rs.getString("Date_Time");
+				String dateID = createDateID(profile1, profile2, dateTime);
+
 				Date date = new Date();
-				date.setDateID("69"); // TODO determine how to create DateID
-				date.setUser1ID(rs.getString("Profile1"));
-				date.setUser2ID(rs.getString("Profile2"));
-				date.setDate(rs.getString("Date_Time"));
+				date.setDateID(dateID);
+				date.setUser1ID(profile1);
+				date.setUser2ID(profile2);
+				date.setDate(dateTime);
 				date.setGeolocation(rs.getString("Location"));
 				date.setBookingfee(Integer.toString(rs.getInt("BookingFee")));
 				date.setCustRepresentative(rs.getString("CustRep"));
@@ -85,11 +96,16 @@ public class DateDao {
 			ResultSet rs = st.executeQuery(""
 					+ "SELECT * FROM date WHERE MONTH(Date_Time)=\'" + month + "\' AND YEAR(Date_Time)=\'" + year + "\'"); 
 			while(rs.next()) {
+				String profile1 = rs.getString("Profile1");
+				String profile2 = rs.getString("Profile2");
+				String dateTime = rs.getString("Date_Time");
+				String dateID = createDateID(profile1, profile2, dateTime);
+
 				Date date = new Date();
-				date.setDateID("69"); // TODO determine how to create DateID
-				date.setUser1ID(rs.getString("Profile1"));
-				date.setUser2ID(rs.getString("Profile2"));
-				date.setDate(rs.getString("Date_Time"));
+				date.setDateID(dateID);
+				date.setUser1ID(profile1);
+				date.setUser2ID(profile2);
+				date.setDate(dateTime);
 				date.setGeolocation(rs.getString("Location"));
 				date.setBookingfee(Integer.toString(rs.getInt("BookingFee")));
 				date.setCustRepresentative(rs.getString("CustRep"));
@@ -131,17 +147,22 @@ public class DateDao {
 				Statement st2 = con.createStatement();
 				ResultSet rsFinal = st2.executeQuery(outerQuery);
 				while(rsFinal.next()) {
+					String profile1 = rs.getString("Profile1");
+					String profile2 = rs.getString("Profile2");
+					String dateTime = rs.getString("Date_Time");
+					String dateID = createDateID(profile1, profile2, dateTime);
+
 					Date date = new Date();
-					date.setDateID("69"); // TODO determine how to create DateID
-					date.setUser1ID(rsFinal.getString("Profile1"));
-					date.setUser2ID(rsFinal.getString("Profile2"));
-					date.setDate(rsFinal.getString("Date_Time"));
-					date.setGeolocation(rsFinal.getString("Location"));
-					date.setBookingfee(Integer.toString(rsFinal.getInt("BookingFee")));
-					date.setCustRepresentative(rsFinal.getString("CustRep"));
-					date.setComments(rsFinal.getString("Comments"));
-					date.setUser1Rating(Integer.toString(rsFinal.getInt("User1Rating")));
-					date.setUser2Rating(Integer.toString(rsFinal.getInt("User2Rating")));
+					date.setDateID(dateID);
+					date.setUser1ID(profile1);
+					date.setUser2ID(profile2);
+					date.setDate(dateTime);
+					date.setGeolocation(rs.getString("Location"));
+					date.setBookingfee(Integer.toString(rs.getInt("BookingFee")));
+					date.setCustRepresentative(rs.getString("CustRep"));
+					date.setComments(rs.getString("Comments"));
+					date.setUser1Rating(Integer.toString(rs.getInt("User1Rating")));
+					date.setUser2Rating(Integer.toString(rs.getInt("User2Rating")));
 					dates.add(date);
 				}
 			}
@@ -171,11 +192,16 @@ public class DateDao {
 					+ "WHERE CAST(Date_Time AS DATE) = CAST(\'" + calendarDate + "\' AS DATE) "
 					+ "AND User1Rating >= 3 AND User2Rating >= 3"); 
 			while(rs.next()) {
+				String profile1 = rs.getString("Profile1");
+				String profile2 = rs.getString("Profile2");
+				String dateTime = rs.getString("Date_Time");
+				String dateID = createDateID(profile1, profile2, dateTime);
+
 				Date date = new Date();
-				date.setDateID("69"); // TODO determine how to create DateID
-				date.setUser1ID(rs.getString("Profile1"));
-				date.setUser2ID(rs.getString("Profile2"));
-				date.setDate(rs.getString("Date_Time"));
+				date.setDateID(dateID);
+				date.setUser1ID(profile1);
+				date.setUser2ID(profile2);
+				date.setDate(dateTime);
 				date.setGeolocation(rs.getString("Location"));
 				date.setBookingfee(Integer.toString(rs.getInt("BookingFee")));
 				date.setCustRepresentative(rs.getString("CustRep"));
@@ -242,11 +268,16 @@ public class DateDao {
 			ResultSet rs = st.executeQuery(""
 					+ "SELECT * FROM date WHERE MONTH(Date_Time)=\'" + month + "\' AND YEAR(Date_Time)=\'" + year + "\'"); 
 			while(rs.next()) {
+				String profile1 = rs.getString("Profile1");
+				String profile2 = rs.getString("Profile2");
+				String dateTime = rs.getString("Date_Time");
+				String dateID = createDateID(profile1, profile2, dateTime);
+
 				Date date = new Date();
-				date.setDateID("69"); // TODO determine how to create DateID
-				date.setUser1ID(rs.getString("Profile1"));
-				date.setUser2ID(rs.getString("Profile2"));
-				date.setDate(rs.getString("Date_Time"));
+				date.setDateID(dateID);
+				date.setUser1ID(profile1);
+				date.setUser2ID(profile2);
+				date.setDate(dateTime);
 				date.setGeolocation(rs.getString("Location"));
 				date.setBookingfee(Integer.toString(rs.getInt("BookingFee")));
 				date.setCustRepresentative(rs.getString("CustRep"));
