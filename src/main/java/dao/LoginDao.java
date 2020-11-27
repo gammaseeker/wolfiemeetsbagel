@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
@@ -59,23 +60,6 @@ public class LoginDao {
 		 * Return "failure" for an unsuccessful database operation
 		 */
 		
-		try {
-			String username = login.getUsername();
-			String password = login.getPassword();
-			
-			Class.forName(JDBC_DRIVER);
-			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
-			Statement st = con.createStatement();
-			
-			String addPassword = "UPDATE Person"
-							+    "SET Password='" + password + "'"
-							+    "WHERE Email='" + username + "';";
-			
-			st.executeUpdate(addPassword);
-		} catch (Exception e) {
-			System.out.println(e);
-			return "failure";
-		}
 		return "success";
 	}
 
