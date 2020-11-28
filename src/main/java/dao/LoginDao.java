@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
@@ -30,36 +31,21 @@ public class LoginDao {
 			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
 			Statement st = con.createStatement();
 			
-			String checkEmplpoyee = "SELECT Role "
-								+ 	"FROM Employee "
-								+ 	"WHERE SSN=( "
-								+ 		"SELECT SSN "
-								+ 		"FROM Person "
-								+ 		"WHERE Email='" + username + "' AND Password='" + password + "');";
-			ResultSet rs1 = st.executeQuery(checkEmplpoyee);
+			String checkRole = "SELECT Role "
+							+  "FROM Login "
+							+  "WHERE Username='" + username + "' AND Password='" + password + "';";
+			ResultSet rs = st.executeQuery(checkRole);
 			
-			// We have to check if its customer if the username and password does not map to an employee
-			if (rs1.next() == false) {
-				String checkCustomer = "SELECT SSN "
-								   +   "FROM Person "
-								   +   "WHERE Email='" + username + "' AND Password='" + password + "';";
-				ResultSet rs2 = st.executeQuery(checkCustomer);
-				
-				if (rs2.next() == false) {
-					login = null;
-				} else {
-					login.setRole("customer");
-				}
+			if (rs.next() == false) {
+				login = null;
 			} else {
-				String role = rs1.getString("Role");
-				if (role.equals("Manager")) {
-					login.setRole("manager");
-				} else {
-					login.setRole("customerRepresentative");
-				}
+				login.setUsername(username);
+				login.setPassword(password);
+				login.setRole(rs.getString("Role"));
 			}
 		} catch (Exception e) {
 			System.out.println(e);
+			return null;
 		}
 		return login;
 	}
@@ -74,9 +60,7 @@ public class LoginDao {
 		 * Return "failure" for an unsuccessful database operation
 		 */
 		
-		/*Sample data begins*/
 		return "success";
-		/*Sample data ends*/
 	}
 
 }
