@@ -29,6 +29,7 @@
 			<%
 			String email = (String)session.getAttribute("email");
 			String role = (String)session.getAttribute("role");
+			String profileID = (String)session.getAttribute("profileID");
 			//redirect to appropriate home page if already logged in
 			if(email != null) {
 				if(role.equals("manager")) {
@@ -42,10 +43,9 @@
 				// redirect to log in if not alreaddy logged in
 				response.sendRedirect("index.jsp");
 			}
-			out.print("Welcome "+email);
+			out.print("Welcome "+profileID);
 
 			%>
-
 			<div class="row">
 				<div class="col">
 					<div class="card">

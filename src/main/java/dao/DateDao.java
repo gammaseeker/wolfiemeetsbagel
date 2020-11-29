@@ -245,6 +245,16 @@ public class DateDao {
     }
 
     public String setNewDate(String user1, String user2) {
+    	try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Failed";
+    	}
         return "Successfull date b/w " + user1 + " and " + user2;
     }
 

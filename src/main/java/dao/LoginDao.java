@@ -31,7 +31,7 @@ public class LoginDao {
 			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
 			Statement st = con.createStatement();
 			
-			String checkRole = "SELECT Role "
+			String checkRole = "SELECT * "
 							+  "FROM Login "
 							+  "WHERE Username='" + username + "' AND Password='" + password + "';";
 			ResultSet rs = st.executeQuery(checkRole);
@@ -42,6 +42,16 @@ public class LoginDao {
 				login.setUsername(username);
 				login.setPassword(password);
 				login.setRole(rs.getString("Role"));
+				if(rs.getString("Role").toLowerCase().equals("customer")) {
+					String getProfileID = "SELECT ProfileID "
+							+ "FROM Profile "
+							+ "WHERE Profile.OwnerSSN = \'" + rs.getString("SSN") + "\'";
+					rs = st.executeQuery(getProfileID);
+					while(rs.next()) {
+						login.addProfileID(rs.getString("ProfileID"));
+					}
+					//System.out.println(login.getProfileID().toString()); DEBUG STATEMENT
+				}
 			}
 		} catch (Exception e) {
 			System.out.println(e);

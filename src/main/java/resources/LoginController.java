@@ -1,6 +1,10 @@
 package resources;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -61,8 +65,11 @@ public class LoginController extends HttpServlet {
 			else {
 				CustomerDao customerDao = new CustomerDao();
 				String customerID = customerDao.getCustomerID(username);
+				List<String> profileIDs = login.getProfileID();
 				request.getSession(true).setAttribute("customerID", customerID);
-				response.sendRedirect("home.jsp");	
+				request.setAttribute("profileIDs", profileIDs);
+				RequestDispatcher rd = request.getRequestDispatcher("pickProfile.jsp");
+				rd.forward(request, response);
 			}
 
 		}
