@@ -61,7 +61,7 @@
 				   <td>
 					   <form method="POST" action="referProfile">
 						   <div class="form-group">
-							   <input type="hidden" class="form-control" name="profileA" value=${email}>
+							   <input type="hidden" class="form-control" name="profileA" value=${profileID}>
 							   <input type="hidden" class="form-control" name="profileB" value=${cd.profileID}>
 						   </div>
 						   <select name="profileC" id="profileC">
@@ -77,7 +77,7 @@
    		         <td>
 		         	<form method="POST" action="makeDate">
 						<div class="form-group">
-							<input type="hidden" class="form-control" name="from" value=${email}>
+							<input type="hidden" class="form-control" name="from" value=${profileID}>
 							<input type="hidden" class="form-control" name="to" value=${cd.profileID}>
 			        	</div>
 						<input type="submit" value="Make a Date" class="btn btn-success"/>
@@ -86,7 +86,7 @@
 		         <td>
 		         	<form method="POST" action="likeProfile">
 						<div class="form-group">
-							<input type="hidden" class="form-control" name="from" value=${email}>
+							<input type="hidden" class="form-control" name="from" value=${profileID}>
 							<input type="hidden" class="form-control" name="to" value=${cd.profileID}>
 			        	</div>
 						<input type="submit" value="Like" class="btn btn-success"/>

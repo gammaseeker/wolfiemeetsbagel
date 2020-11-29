@@ -249,7 +249,10 @@ public class DateDao {
 			Class.forName(JDBC_DRIVER);
 			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
 			Statement st = con.createStatement();
-
+			st.execute(""
+					+ "INSERT INTO date (Profile1, Profile2, Date_Time) VALUES (\'"
+					+ user1 + "\', \'"
+					+ user2 + "\', CURRENT_TIMESTAMP)"); // TODO update front end to allow user to specify date time
     	} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
