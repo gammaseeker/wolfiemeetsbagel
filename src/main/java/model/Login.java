@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Login {
 	/*
 	 * This class is a representation of the login table in the database
@@ -9,6 +12,8 @@ public class Login {
 	private String username;
 	private String password;
 	private String role;
+	private List<String> profileID = new ArrayList<String>(); // Optional field
+
 	public String getRole() {
 		return role;
 	}
@@ -26,6 +31,15 @@ public class Login {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public List<String> getProfileID() {
+		return profileID;
+	}
+	public void setProfileID(List<String> profileID) {
+		this.profileID = new ArrayList<>(profileID) ;
+	}
+	public void addProfileID(String profileID) {
+		this.profileID.add(profileID);
 	}
 	
 

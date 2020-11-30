@@ -35,17 +35,25 @@ public class GetSalesReportController extends HttpServlet {
         String month = request.getParameter("month");
 
         DateDao dao = new DateDao();
+        
+        int income = -9999; // Default value that denotes error if we cannot compute income (DB fails etc.)
 
-        int income = Integer.parseInt(dao.getSalesReport(month, year));
-        List<Date> openDatesOfThisMonthYear = dao.getDatesByMonthYear("12", "2020");
+        if(!dao.getSalesReport(month, year).equals("")) {
+        	income = Integer.parseInt(dao.getSalesReport(month, year));
+        }
 
-        request.setAttribute("income", income);
+        List<Date> openDatesOfThisMonthYear = dao.getDatesByMonthYear(month, year);
+
+        if(income == -9999) {
+        	request.setAttribute("income", "Error computing income");
+        } else {
+			request.setAttribute("income", income);
+        }
         request.setAttribute("dates", openDatesOfThisMonthYear);
         request.setAttribute("year", year);
         request.setAttribute("month", month);
         RequestDispatcher rd = request.getRequestDispatcher("showSalesReport.jsp");
         rd.forward(request, response);
-
 
     }
 
