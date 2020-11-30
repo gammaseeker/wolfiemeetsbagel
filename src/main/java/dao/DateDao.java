@@ -283,6 +283,21 @@ public class DateDao {
     }
 
     public String commentDate(String dateID, String comment) {
+    	try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+
+			st.execute(""
+				+ "UPDATE date " 
+				+ "SET Comments=\'"
+				+ comment + "\'"
+				+ "WHERE DateID=\'" + dateID + "\'");
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Failed";
+    	}
         return "Date - " + dateID + " has new comment - " + comment;
     }
 
