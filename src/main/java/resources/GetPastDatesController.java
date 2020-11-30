@@ -32,10 +32,10 @@ public class GetPastDatesController extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String email = request.getParameter("email");
+		String profileID = request.getParameter("profileID");
 
         DateDao dao = new DateDao();
-        List<Date> dates = dao.getPastDates(email);
+        List<Date> dates = dao.getPastDates(profileID);
 
         request.setAttribute("dates",dates);
         RequestDispatcher rd = request.getRequestDispatcher("showPastDates.jsp");
