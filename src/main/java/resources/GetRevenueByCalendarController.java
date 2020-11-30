@@ -31,12 +31,12 @@ public class GetRevenueByCalendarController extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//		String searchKeyword = request.getParameter("calendar_date");
+		String calendarDate = request.getParameter("calendar_date");
 
         DateDao dao = new DateDao();
-        List<Date> dates = dao.getRevenueByCalendar("12-12-2020");
+        List<Date> dates = dao.getRevenueByCalendar(calendarDate);
         request.setAttribute("dates", dates);
-        request.setAttribute("date", "12-12-2020");
+        request.setAttribute("date", calendarDate);
         RequestDispatcher rd = request.getRequestDispatcher("showRevenueByCalendar.jsp");
         rd.forward(request, response);
 

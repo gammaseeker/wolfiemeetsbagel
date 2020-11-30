@@ -15,12 +15,6 @@ public class DateDao {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/wolfiemeetsbagel";
 
-	private String createDateID(String profile1, String profile2, String dateTime) {
-		String varstr = profile1 + profile2 + dateTime;
-		int hc = Math.abs(varstr.hashCode());
-		return Integer.toString(hc);
-	}
-
     public String addDate(Date date) {
     	try {
 			Class.forName(JDBC_DRIVER);
@@ -62,10 +56,9 @@ public class DateDao {
 				String profile1 = rs.getString("Profile1");
 				String profile2 = rs.getString("Profile2");
 				String dateTime = rs.getString("Date_Time");
-				String dateID = createDateID(profile1, profile2, dateTime);
 
 				Date date = new Date();
-				date.setDateID(dateID);
+				date.setDateID(rs.getString("DateID"));
 				date.setUser1ID(profile1);
 				date.setUser2ID(profile2);
 				date.setDate(dateTime);
@@ -100,10 +93,9 @@ public class DateDao {
 				String profile1 = rs.getString("Profile1");
 				String profile2 = rs.getString("Profile2");
 				String dateTime = rs.getString("Date_Time");
-				String dateID = createDateID(profile1, profile2, dateTime);
 
 				Date date = new Date();
-				date.setDateID(dateID);
+				date.setDateID(rs.getString("DateID"));
 				date.setUser1ID(profile1);
 				date.setUser2ID(profile2);
 				date.setDate(dateTime);
@@ -151,10 +143,9 @@ public class DateDao {
 					String profile1 = rsFinal.getString("Profile1");
 					String profile2 = rsFinal.getString("Profile2");
 					String dateTime = rsFinal.getString("Date_Time");
-					String dateID = createDateID(profile1, profile2, dateTime);
 
 					Date date = new Date();
-					date.setDateID(dateID);
+					date.setDateID(rs.getString("DateID"));
 					date.setUser1ID(profile1);
 					date.setUser2ID(profile2);
 					date.setDate(dateTime);
@@ -196,10 +187,9 @@ public class DateDao {
 				String profile1 = rs.getString("Profile1");
 				String profile2 = rs.getString("Profile2");
 				String dateTime = rs.getString("Date_Time");
-				String dateID = createDateID(profile1, profile2, dateTime);
 
 				Date date = new Date();
-				date.setDateID(dateID);
+				date.setDateID(rs.getString("DateID"));
 				date.setUser1ID(profile1);
 				date.setUser2ID(profile2);
 				date.setDate(dateTime);
@@ -263,6 +253,20 @@ public class DateDao {
     }
 
     public String cancelDate(String dateID) {
+    	try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+
+			st.execute(""
+				+ "DELETE FROM date " 
+				+ "WHERE DateID=\'"
+				+ dateID + "\'");
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Failed";
+    	}
         return "Date - " + dateID + " is now cancelled";
     }
 
@@ -285,10 +289,9 @@ public class DateDao {
 				String profile1 = rs.getString("Profile1");
 				String profile2 = rs.getString("Profile2");
 				String dateTime = rs.getString("Date_Time");
-				String dateID = createDateID(profile1, profile2, dateTime);
 
 				Date date = new Date();
-				date.setDateID(dateID);
+				date.setDateID(rs.getString("DateID"));
 				date.setUser1ID(profile1);
 				date.setUser2ID(profile2);
 				date.setDate(dateTime);
@@ -339,10 +342,9 @@ public class DateDao {
 					String profile1 = rsFinal.getString("Profile1");
 					String profile2 = rsFinal.getString("Profile2");
 					String dateTime = rsFinal.getString("Date_Time");
-					String dateID = createDateID(profile1, profile2, dateTime);
 
 					Date date = new Date();
-					date.setDateID(dateID);
+					date.setDateID(rs.getString("DateID"));
 					date.setUser1ID(profile1);
 					date.setUser2ID(profile2);
 					date.setDate(dateTime);
@@ -388,10 +390,9 @@ public class DateDao {
 					String profile1 = rsFinal.getString("Profile1");
 					String profile2 = rsFinal.getString("Profile2");
 					String dateTime = rsFinal.getString("Date_Time");
-					String dateID = createDateID(profile1, profile2, dateTime);
 
 					Date date = new Date();
-					date.setDateID(dateID);
+					date.setDateID(rs.getString("DateID"));
 					date.setUser1ID(profile1);
 					date.setUser2ID(profile2);
 					date.setDate(dateTime);
@@ -466,24 +467,37 @@ public class DateDao {
 
     public List<Date> getRevenueByCalendar(String calendarDate) {
         List<Date> dates = new ArrayList<Date>();
+        
+        try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
 
-        /*Sample data begins*/
-        for (int i = 0; i < 10; i++) {
-            Date date = new Date();
-            date.setDateID("12313123");
-            date.setUser1ID("1212");
-            date.setUser2ID("2121");
-            date.setDate("12-12-2020");
-            date.setGeolocation("location");
-            date.setBookingfee("21");
-            date.setCustRepresentative("Manoj Pandey");
-            date.setComments("Comments");
-            date.setUser1Rating("3");
-            date.setUser2Rating("3");
-            dates.add(date);
-        }
-        /*Sample data ends*/
+			ResultSet rs = st.executeQuery(""
+					+ "SELECT * FROM date WHERE CAST(Date_Time AS DATE) = CAST(\'" + calendarDate + "\' AS DATE)"); 
+			while(rs.next()) {
+				String profile1 = rs.getString("Profile1");
+				String profile2 = rs.getString("Profile2");
+				String dateTime = rs.getString("Date_Time");
 
+				Date date = new Date();
+				date.setDateID(rs.getString("DateID"));
+				date.setUser1ID(profile1);
+				date.setUser2ID(profile2);
+				date.setDate(dateTime);
+				date.setGeolocation(rs.getString("Location"));
+				date.setBookingfee(Integer.toString(rs.getInt("BookingFee")));
+				date.setCustRepresentative(rs.getString("CustRep"));
+				date.setComments(rs.getString("Comments"));
+				date.setUser1Rating(Integer.toString(rs.getInt("User1Rating")));
+				date.setUser2Rating(Integer.toString(rs.getInt("User2Rating")));
+				dates.add(date);
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return dates;
     }
 }
