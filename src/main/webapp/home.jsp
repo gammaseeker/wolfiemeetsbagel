@@ -57,6 +57,9 @@
 							</form>
 							<br/>
 							<form action="cancelDate">
+								<div class="form-group">
+									<input type="hidden" class="form-control" name="profileID" value=${profileID}>
+								</div>
 								<input type="submit" value="Comment/Cancel Date" class="btn btn-success"/>
 							</form>
 

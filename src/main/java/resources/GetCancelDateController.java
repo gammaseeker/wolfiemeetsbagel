@@ -32,7 +32,7 @@ public class GetCancelDateController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		String profile = request.getParameter("");
+		String profile = request.getParameter("profileID");
 		DateDao dao = new DateDao();
 
 		List<Date> dates = dao.getPendingDates(profile); // Changed from getOpenDates to getPendingDates

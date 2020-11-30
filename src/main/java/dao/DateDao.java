@@ -211,11 +211,39 @@ public class DateDao {
     }
 
 
-    public List<Date> getOpenDates() {
+    public List<Date> getOpenDates(String profileID) {
     	// Open Dates is just the term used in the code base which means all the dates - both past and the pending. - Vibhor
         List<Date> dates = new ArrayList<Date>();
 
+        try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			String outerQuery = 
+					"SELECT * FROM date WHERE (Profile1 = (\'" + profileID + "\') OR Profile2 = (\'" + profileID + "\'))";
+			Statement st2 = con.createStatement();
+			ResultSet rsFinal = st2.executeQuery(outerQuery);
+			while(rsFinal.next()) {
+				String profile1 = rsFinal.getString("Profile1");
+				String profile2 = rsFinal.getString("Profile2");
+				String dateTime = rsFinal.getString("Date_Time");
 
+				Date date = new Date();
+				date.setDateID(rsFinal.getString("DateID"));
+				date.setUser1ID(profile1);
+				date.setUser2ID(profile2);
+				date.setDate(dateTime);
+				date.setGeolocation(rsFinal.getString("Location"));
+				date.setBookingfee(Integer.toString(rsFinal.getInt("BookingFee")));
+				date.setCustRepresentative(rsFinal.getString("CustRep"));
+				date.setComments(rsFinal.getString("Comments"));
+				date.setUser1Rating(Integer.toString(rsFinal.getInt("User1Rating")));
+				date.setUser2Rating(Integer.toString(rsFinal.getInt("User2Rating")));
+				dates.add(date);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return dates;
     }
 
@@ -251,7 +279,7 @@ public class DateDao {
 			e.printStackTrace();
 			return "Failed";
     	}
-        return "Date - " + dateID + " is now cancelled";
+        return "Date " + dateID + " is now cancelled";
     }
 
     public String commentDate(String dateID, String comment) {
