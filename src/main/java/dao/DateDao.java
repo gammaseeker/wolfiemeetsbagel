@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class DateDao {
@@ -412,8 +413,30 @@ public class DateDao {
     }
 
 
-    public String getMostPopularLocation(String user) {
-        return "Jersey City";
+    public LinkedHashMap<String, Integer> getMostPopularLocations() {
+    	// Key is location, value is frequency
+    	LinkedHashMap<String, Integer> locations = new LinkedHashMap<String, Integer>();
+
+        try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+
+			ResultSet rs = st.executeQuery(""
+					+ "SELECT Location, COUNT(DateID) as freq "
+					+ "FROM date "
+					+ "GROUP BY Location "
+					+ "ORDER BY COUNT(DateID) DESC");
+			while(rs.next()) {
+				locations.put(rs.getString("Location"), rs.getInt("freq"));
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        return locations;
     }
 
 
