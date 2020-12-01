@@ -30,32 +30,6 @@ public class EmployeeDao {
 		 * The sample code returns "success" by default.
 		 * You need to handle the database insertion of the employee details and return "success" or "failure" based on result of the database insertion.
 		 */
-		
-		try {
-			Class.forName(JDBC_DRIVER);
-			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
-			
-			PreparedStatement pstmt = con.prepareStatement(
-					"INSERT INTO Person (SSN, Password, FirstName, LastName, Street, City, State, Zipcode, Email, Telephone)"
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
-			
-			pstmt.setString(1, employee.getEmployeeID());
-			pstmt.setNull(2, java.sql.Types.CHAR);
-			pstmt.setString(3, employee.getFirstName());
-			pstmt.setString(4, employee.getLastName());
-			pstmt.setString(5, employee.getAddress());
-			pstmt.setString(6, employee.getCity());
-			pstmt.setString(7, employee.getState());
-			pstmt.setInt(8, employee.getZipCode());
-			pstmt.setString(9, employee.getEmail());
-			pstmt.setString(10, employee.getTelephone());
-			
-			pstmt.executeUpdate();
-		} catch (Exception e) {
-			System.out.println(e);
-			return "failure";
-		}
-		
 		try {
 			Class.forName(JDBC_DRIVER);
 			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
@@ -75,7 +49,6 @@ public class EmployeeDao {
 		}
 		
 		return "success";
-
 	}
 
 	public String editEmployee(Employee employee) {
