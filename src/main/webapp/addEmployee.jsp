@@ -59,8 +59,8 @@
 		<div class="form-group">
 			<label for="employeeRole">Role</label>
 			<select name="employeeRole" id="employeeRole" class="form-control">
-				<option value="manager">Manager</option>
-				<option value="custRep">Customer Representative</option>
+				<option value="Manager">Manager</option>
+				<option value="CustRep">Customer Representative</option>
 			</select>
 		</div>
 		</div>

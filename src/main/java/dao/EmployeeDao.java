@@ -1,5 +1,12 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +18,9 @@ public class EmployeeDao {
 	 * This class handles all the database operations related to the employee table
 	 */
 	
+	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/wolfiemeetsbagel";
+	
 	public String addEmployee(Employee employee) {
 
 		/*
@@ -20,11 +30,25 @@ public class EmployeeDao {
 		 * The sample code returns "success" by default.
 		 * You need to handle the database insertion of the employee details and return "success" or "failure" based on result of the database insertion.
 		 */
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			
+			PreparedStatement pstmt = con.prepareStatement(
+					"INSERT INTO Employee (SSN, Role, StartDate, HourlyRate) VALUES (?, ?, ?, ?);");
+			
+			pstmt.setString(1, employee.getEmployeeID());
+			pstmt.setString(2, employee.getEmployeeRole());
+			pstmt.setDate(3, Date.valueOf(employee.getStartDate()));
+			pstmt.setFloat(4, employee.getHourlyRate());
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println(e);
+			return "failure";
+		}
 		
-		/*Sample data begins*/
 		return "success";
-		/*Sample data ends*/
-
 	}
 
 	public String editEmployee(Employee employee) {
@@ -70,8 +94,8 @@ public class EmployeeDao {
 		for (int i = 0; i < 10; i++) {
 			Employee employee = new Employee();
 			employee.setEmail("shiyong@cs.sunysb.edu");
-			employee.setFirstName("Shiyong");
-			employee.setLastName("Lu");
+			employee.setFirstName("hi");
+			employee.setLastName("d");
 			employee.setEmployeeRole("CustRep");
 			employee.setAddress("123 Success Street");
 			employee.setCity("Stony Brook");
