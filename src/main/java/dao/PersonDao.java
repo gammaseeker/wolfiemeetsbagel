@@ -53,6 +53,37 @@ public class PersonDao {
 	 * @return "success"|"failure"
 	 */
 	public String editPerson(Person person) {
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			
+			PreparedStatement pstmt = con.prepareStatement(
+					"UPDATE Person "
+				  + "SET FirstName=?, "
+				  +     "LastName=?, "
+				  + 	"Street=?, "
+				  + 	"City=?, "
+				  + 	"State=?, "
+				  + 	"Zipcode=?, "
+				  + 	"Email=?, "
+				  + 	"Telephone=? "
+				  + "WHERE SSN=?;");
+			
+			pstmt.setString(1, person.getFirstName());
+			pstmt.setString(2, person.getLastName());
+			pstmt.setString(3, person.getStreet());
+			pstmt.setString(4, person.getCity());
+			pstmt.setString(5, person.getState());
+			pstmt.setInt(6, person.getZipCode());
+			pstmt.setString(7, person.getEmail());
+			pstmt.setString(8, person.getTelephone());
+			pstmt.setString(9, person.getPersonID());
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println(e);
+			return "failure";
+		}
 		return "success";
 	}
 	
