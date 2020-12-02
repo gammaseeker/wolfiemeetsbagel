@@ -38,7 +38,7 @@ public class LoginDao {
 								+ 		"FROM Person "
 								+ 		"WHERE Email='" + username + "' AND Password='" + password + "');";
 			ResultSet rs1 = st.executeQuery(checkEmplpoyee);
-			
+
 			// We have to check if its customer if the username and password does not map to an employee
 			if (rs1.next() == false) {
 				String checkCustomer = "SELECT SSN "
@@ -50,6 +50,16 @@ public class LoginDao {
 					login = null;
 				} else {
 					login.setRole("customer");
+          login.setUsername(username);
+				  login.setPassword(password);
+					String getProfileID = "SELECT ProfileID "
+						 + "FROM Profile "
+						 + "WHERE Profile.OwnerSSN = \'" + rs2.getString("SSN") + "\'";
+					ResultSet rs3 = st.executeQuery(getProfileID);
+					while(rs3.next()) {
+						login.addProfileID(rs3.getString("ProfileID"));
+					}
+					//System.out.println(login.getProfileID().toString()); DEBUG STATEMENT
 				}
 			} else {
 				String role = rs1.getString("Role");

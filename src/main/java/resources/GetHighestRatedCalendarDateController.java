@@ -36,9 +36,10 @@ public class GetHighestRatedCalendarDateController extends HttpServlet {
          * The data received from the getCustomers method is sent to the Customer Listing page as request attribute "customers"
          * This method redirects to the Customer Listing page
          */
-
+    	String calendarDate = request.getParameter("calendar_date");
         DateDao dao = new DateDao();
-        List<Date> mostRated = dao.getHighestRatedCalendarDate();
+        List<Date> mostRated = dao.getHighestRatedCalendarDate(calendarDate);
+        request.setAttribute("date", calendarDate);
         request.setAttribute("dates", mostRated);
 
         RequestDispatcher rd = request.getRequestDispatcher("showHighestRatedCalendarDate.jsp");

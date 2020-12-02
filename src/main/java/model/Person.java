@@ -9,7 +9,7 @@ public class Person {
     private String street;
     private String city;
     private String state;
-    private String zipcode;
+    private int zipcode;
     private String email;
     private String telephone;
 
@@ -69,11 +69,11 @@ public class Person {
         this.state = state;
     }
 
-    public String getZipcode() {
+    public int getZipCode() {
         return zipcode;
     }
 
-    public void setZipcode(String zipcode) {
+    public void setZipCode(int zipcode) {
         this.zipcode = zipcode;
     }
 
