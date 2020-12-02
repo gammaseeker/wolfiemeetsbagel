@@ -87,28 +87,25 @@ public class EmployeeDao {
 		 * Query to return details about all the employees must be implemented
 		 * Each record is required to be encapsulated as a "Employee" class object and added to the "employees" List
 		 */
-
+		
 		List<Employee> employees = new ArrayList<Employee>();
-		
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Employee employee = new Employee();
-			employee.setEmail("shiyong@cs.sunysb.edu");
-			employee.setFirstName("hi");
-			employee.setLastName("d");
-			employee.setEmployeeRole("CustRep");
-			employee.setAddress("123 Success Street");
-			employee.setCity("Stony Brook");
-			employee.setStartDate("2006-10-17");
-			employee.setState("NY");
-			employee.setZipCode(11790);
-			employee.setTelephone("5166328959");
-			employee.setEmployeeID("631-413-5555");
-			employee.setHourlyRate(100);
-			employees.add(employee);
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			
+			Statement st = con.createStatement();
+			String getEmployees = "SELECT SSN "
+								+ "FROM Employee;";
+			
+			ResultSet rs = st.executeQuery(getEmployees);
+			while (rs.next()) {
+				String ssn = rs.getString("SSN");
+				Employee employee = getEmployee(ssn);
+				employees.add(employee);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
 		}
-		/*Sample data ends*/
-		
 		return employees;
 	}
 
@@ -122,19 +119,35 @@ public class EmployeeDao {
 
 		Employee employee = new Employee();
 		
-		/*Sample data begins*/
-		employee.setEmail("shiyong@cs.sunysb.edu");
-		employee.setFirstName("Shiyong");
-		employee.setLastName("Lu");
-		employee.setAddress("123 Success Street");
-		employee.setCity("Stony Brook");
-		employee.setStartDate("2006-10-17");
-		employee.setState("NY");
-		employee.setZipCode(11790);
-		employee.setTelephone("5166328959");
-		employee.setEmployeeID("631-413-5555");
-		employee.setHourlyRate(100);
-		/*Sample data ends*/
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			
+			Statement st = con.createStatement();
+			String getEmployee = "SELECT P.*, E.Role, E.StartDate, E.HourlyRate "
+							+    "FROM Person P, Employee E "
+							+    "WHERE P.SSN=E.SSN AND E.SSN='" + employeeID + "';";
+			
+			ResultSet rs = st.executeQuery(getEmployee);
+			
+			if (rs.next()) {
+				employee.setEmployeeID(employeeID);
+				employee.setEmployeeRole(rs.getString("Role"));
+				employee.setFirstName(rs.getString("FirstName"));
+				employee.setLastName(rs.getString("LastName"));
+				employee.setAddress(rs.getString("Street"));
+				employee.setCity(rs.getString("City"));
+				employee.setState(rs.getString("State"));
+				employee.setZipCode(rs.getInt("Zipcode"));
+				employee.setTelephone(rs.getString("Telephone"));
+				employee.setEmail(rs.getString("Email"));
+				employee.setStartDate(rs.getDate("StartDate").toString());
+				employee.setHourlyRate(rs.getFloat("HourlyRate"));
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
 		
 		return employee;
 	}
@@ -148,5 +161,4 @@ public class EmployeeDao {
 
 		return "111-11-1111";
 	}
-
 }
