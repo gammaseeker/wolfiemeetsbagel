@@ -92,9 +92,9 @@ public class EmployeeDao {
 		 * You need to handle the database deletion and return "success" or "failure" based on result of the database deletion.
 		 */
 		
-		/*Sample data begins*/
-		return "success";
-		/*Sample data ends*/
+		PersonDao personDao = new PersonDao();
+		String result = personDao.deletePerson(employeeID);
+		return result;
 
 	}
 
