@@ -177,7 +177,23 @@ public class EmployeeDao {
 		 * username, which is the Employee's email address who's Employee ID has to be fetched, is given as method parameter
 		 * The Employee ID is required to be returned as a String
 		 */
-
-		return "111-11-1111";
+		String result = "";
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			
+			Statement st = con.createStatement();
+			String getEmployeeID = "SELECT E.SSN "
+								+  "FROM Person P, Employee E "
+								+  "WHERE P.SSN=E.SSN AND P.Email='" + username + "';";
+			
+			ResultSet rs = st.executeQuery(getEmployeeID);
+			if (rs.next()) { 
+				result = rs.getString("SSN");
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return result;
 	}
 }
