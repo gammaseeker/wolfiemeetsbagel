@@ -35,10 +35,7 @@
 					else if(role.equals("customerRepresentative")) {
 						response.sendRedirect("customerRepresentativeHome.jsp");
 					}
-					else {
-						//response.sendRedirect("home.jsp");
-						response.sendRedirect("pickProfile.jsp");
-					}
+					// No redirects if logged in as a customer
 				}
 				
 				String status = request.getParameter("status");
