@@ -64,7 +64,7 @@ public class EmployeeDao {
 			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
 			
 			PreparedStatement pstmt = con.prepareStatement(
-					"UPDATE Person "
+					"UPDATE Employee "
 				  + "SET Role=?, "
 				  +     "StartDate=?, "
 				  + 	"HourlyRate=? "
