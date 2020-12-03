@@ -59,10 +59,29 @@ public class EmployeeDao {
 		 * The sample code returns "success" by default.
 		 * You need to handle the database update and return "success" or "failure" based on result of the database update.
 		 */
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			
+			PreparedStatement pstmt = con.prepareStatement(
+					"UPDATE Employee "
+				  + "SET Role=?, "
+				  +     "StartDate=?, "
+				  + 	"HourlyRate=? "
+				  + "WHERE SSN=?;");
+			
+			pstmt.setString(1, employee.getEmployeeRole());
+			pstmt.setDate(2, Date.valueOf(employee.getStartDate()));
+			pstmt.setFloat(3, employee.getHourlyRate());
+			pstmt.setString(4, employee.getEmployeeID());
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println(e);
+			return "failure";
+		}
 		
-		/*Sample data begins*/
 		return "success";
-		/*Sample data ends*/
 
 	}
 

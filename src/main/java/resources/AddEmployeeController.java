@@ -73,18 +73,10 @@ public class AddEmployeeController extends HttpServlet {
 		String resultPerson = personDao.addPerson(person);
 		
 		Employee employee = new Employee();
-		employee.setEmail(email);
-		employee.setFirstName(firstName);
-		employee.setLastName(lastName);
-		employee.setAddress(address);
-		employee.setCity(city);
-		employee.setStartDate(startDate);
-		employee.setState(state);
-		employee.setZipCode(zipcode);
-		employee.setTelephone(telephone);
 		employee.setEmployeeID(ssn);
-		employee.setHourlyRate(hourlyRate);
 		employee.setEmployeeRole(role);
+		employee.setStartDate(startDate);
+		employee.setHourlyRate(hourlyRate);
 		
 		EmployeeDao employeeDao = new EmployeeDao();
 		String resultEmployee = employeeDao.addEmployee(employee);
