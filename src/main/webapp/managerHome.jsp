@@ -188,7 +188,7 @@
 								<form action="getHighestRatedCustomer">
 									<input type="submit" value="Customers" class="btn btn-primary"/>
 								</form>
-								<form action="getHighestRatedCalendar">
+								<form action="searchHighestRatedCalendarDate.jsp">
 									<input type="submit" value="Calendar Dates" class="btn btn-primary"/>
 								</form>
 							</div>

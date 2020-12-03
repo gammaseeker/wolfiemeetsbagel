@@ -1,5 +1,11 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.ResultSet;
+
 import model.Login;
 
 public class LoginDao {
@@ -7,6 +13,8 @@ public class LoginDao {
 	 * This class handles all the database operations related to login functionality
 	 */
 	
+	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/wolfiemeetsbagel";
 	
 	public Login login(String username, String password) {
 		/*
@@ -17,15 +25,56 @@ public class LoginDao {
 		 * password, which is the password of the user, is given as method parameter
 		 * Query to verify the username and password and fetch the role of the user, must be implemented
 		 */
-		
-		/*Sample data begins*/
 		Login login = new Login();
-//		login.setRole("customerRepresentative");
-//		login.setRole("customer");
-		login.setRole("manager");
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+			
+			String checkEmplpoyee = "SELECT Role "
+								+ 	"FROM Employee "
+								+ 	"WHERE SSN=( "
+								+ 		"SELECT SSN "
+								+ 		"FROM Person "
+								+ 		"WHERE Email='" + username + "' AND Password='" + password + "');";
+			ResultSet rs1 = st.executeQuery(checkEmplpoyee);
+
+			// We have to check if its customer if the username and password does not map to an employee
+			if (rs1.next() == false) {
+				String checkCustomer = "SELECT SSN "
+								   +   "FROM Person "
+								   +   "WHERE Email='" + username + "' AND Password='" + password + "';";
+				ResultSet rs2 = st.executeQuery(checkCustomer);
+				
+				if (rs2.next() == false) {
+					login = null;
+				} else {
+					login.setUsername(username);
+					login.setPassword(password);
+					login.setRole("customer");
+					
+					String getProfileID = "SELECT ProfileID "
+										+ "FROM Profile "
+										+ "WHERE Profile.OwnerSSN='" + rs2.getString("SSN") + "';";
+					ResultSet rs3 = st.executeQuery(getProfileID);
+					while(rs3.next()) {
+						login.addProfileID(rs3.getString("ProfileID"));
+					}
+					//System.out.println(login.getProfileID().toString()); DEBUG STATEMENT
+				}
+			} else {
+				String role = rs1.getString("Role");
+				if (role.equals("Manager")) {
+					login.setRole("manager");
+				} else {
+					login.setRole("customerRepresentative");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
 		return login;
-		/*Sample data ends*/
-		
 	}
 	
 	public String addUser(Login login) {
@@ -38,9 +87,7 @@ public class LoginDao {
 		 * Return "failure" for an unsuccessful database operation
 		 */
 		
-		/*Sample data begins*/
 		return "success";
-		/*Sample data ends*/
 	}
 
 }

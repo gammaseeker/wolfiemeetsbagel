@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -33,20 +34,17 @@ public class GetPopularGeoLocationController extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /*
-         *
-         * This data is sent to the getCustomers method in the dao.CustomerDao class
-         * The data received from the getCustomers method is sent to the Customer Listing page as request attribute "customers"
-         * This method redirects to the Customer Listing page
+         * This method retrieves the most popular date locations
+         * A 'popular date location' is determined by 
+         * counting the frequency of how many times a location has been used for a date
+         * The results are in descending order (most popular to least popular)
          */
 
-//		String searchKeyword = request.getParameter("customerName");
+    	DateDao date = new DateDao();
+    	LinkedHashMap<String, Integer> popular = date.getMostPopularLocations();
 
-        List<String> popular = new ArrayList<>();
-        for(int i=0;i<10;i++)
-            popular.add("London");
-
-        request.setAttribute("locations",popular);
-        request.setAttribute("rate","212");
+        request.setAttribute("locations", popular);
+        //request.setAttribute("frequency", popular);
 
         RequestDispatcher rd = request.getRequestDispatcher("showMostPopularLocation.jsp");
         rd.forward(request, response);

@@ -15,6 +15,7 @@
 	<meta name="viewport" content="width:device-width, initial-scale=1">
 	<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
 	<title>Highest Rated Calendar Date</title>
+	<!-- Displays any dates where ratings are >= 3 from both parties -->
 </head>
 <body>
 <div>
@@ -28,7 +29,8 @@
 			<tr>
 				<th>Date ID</th>
 				<th>Date/Time</th>
-				<th>Rating</th>
+				<th>User 1 Rating</th>
+				<th>User 2 Rating</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -37,6 +39,7 @@
 					<td>${cd.dateID}</td>
 					<td>${cd.date}</td>
 					<%-- Show over all rating (important)--%>
+					<td>${cd.user1Rating}</td>
 					<td>${cd.user2Rating}</td>
 				</tr>
 			</c:forEach>

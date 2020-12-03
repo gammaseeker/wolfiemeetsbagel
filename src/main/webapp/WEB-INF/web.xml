@@ -811,6 +811,17 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>SetCustomerProfileController</servlet-name>
+		<display-name>SetCustomerProfileController</display-name>
+		<description></description>
+		<servlet-class>resources.SetCustomerProfileController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SetCustomerProfileController</servlet-name>
+		<url-pattern>/setCustomerProfile</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>GetMakeDateController</servlet-name>
 		<display-name>GetMakeDateController</display-name>
 		<description></description>

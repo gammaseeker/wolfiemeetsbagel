@@ -29,14 +29,14 @@
 			<thead>
 			<tr>
 				<th>Location</th>
-				<th>Rate</th>
+				<th>Frequency</th>
 			</tr>
 			</thead>
 			<tbody>
 			<c:forEach items="${locations}" var="cd">
 				<tr>
-					<td>${cd}</td>
-					<td>${rate}</td>
+					<td>${cd.key}</td>
+					<td>${cd.value}</td>
 				</tr>
 			</c:forEach>
 			</tbody>
