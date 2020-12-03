@@ -4,13 +4,14 @@ import model.Profile;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LikesDao {
 	/*
-	 * This class handles all the database operations related to the customer table
+	 * This class handles all the database operations related to the likes table
 	 */
 
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -34,14 +35,29 @@ public class LikesDao {
 		return "User - "+user1+" likes "+user2;
 	}
 
-	public List<String> getFavorites(String mw){
+	public List<String> getFavorites(String profileID){
 
-		/*Sample data begins*/
 		List<String> favs = new ArrayList<>();
-		for (int i = 0; i < 10; i++)
-			favs.add("user123");
 
-		/*Sample data ends*/
+    	try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+
+			ResultSet rs = st.executeQuery(""
+							+ "SELECT Likee FROM profile, likes "
+							+ "WHERE ProfileID = Liker "
+							+ "AND ProfileID = \'"
+							+ profileID + "\' "
+							+ "GROUP BY Likee "
+							+ "ORDER BY COUNT(Likee) DESC");
+			while(rs.next()) {
+				favs.add(rs.getString("Likee"));
+			}
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+    	}
 
 		return favs;
 	}
