@@ -68,7 +68,6 @@ public class CustomerDao {
 		}
 		
 		
-		
 		return customers;
 	}
 
@@ -82,21 +81,39 @@ public class CustomerDao {
 
 		
 		List<Customer> customers = new ArrayList<Customer>();
+		String query = ""
+				+ "SELECT P.SSN, FirstName, LastName, Street, City, State, "
+				+ "Zipcode, Email, Telephone, Rating, CardNumber "
+				+ "FROM Person P, User U, Account A "
+				+ "WHERE P.SSN = A.OwnerSSN AND P.SSN = U.SSN";
+		ResultSet r = executeSelectQuery(query);
 		
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Customer customer = new Customer();
-			customer.setUserID("111-11-1111");
-			customer.setAddress("123 Success Street");
-			customer.setLastName("Lu");
-			customer.setFirstName("Shiyong");
-			customer.setCity("Stony Brook");
-			customer.setState("NY");
-			customer.setEmail("shiyong@cs.sunysb.edu");
-			customer.setZipCode(11790);
-			customers.add(customer);			
+		if (r == null) {
+			return null;
 		}
-		/*Sample data ends*/
+		
+		try {
+			while (r.next()) {
+				Customer customer = new Customer();
+				customer.setUserID(r.getString("SSN"));
+				customer.setFirstName(r.getString("FirstName"));
+				customer.setLastName(r.getString("LastName"));
+				customer.setAddress(r.getString("Street"));
+				customer.setCity(r.getString("City"));
+				customer.setState(r.getString("State"));
+				customer.setZipCode(r.getInt("Zipcode"));
+				customer.setEmail(r.getString("Email"));
+				customer.setTelephone(r.getString("Telephone"));
+				customer.setCreditCard(r.getString("CardNumber"));
+				customer.setRating(r.getInt("Rating"));
+				customers.add(customer);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 		
 		return customers;
 	}
