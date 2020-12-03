@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import dao.CustomerDao;
 import dao.EmployeeDao;
 import dao.LoginDao;
+import dao.PersonDao;
 import model.Employee;
 import model.Login;
+import model.Person;
 
 /**
  * Servlet implementation class AddCustomerController
@@ -54,37 +56,45 @@ public class AddEmployeeController extends HttpServlet {
 		String ssn = request.getParameter("employeeSSN");
 		String startDate = request.getParameter("employeeStartDate");
 		float hourlyRate = Float.parseFloat(request.getParameter("employeeHourlyRate"));
-
+		
+		Person person = new Person();
+		person.setPersonID(ssn);
+		person.setPassword(password);
+		person.setFirstName(firstName);
+		person.setLastName(lastName);
+		person.setStreet(address);
+		person.setCity(city);
+		person.setState(state);
+		person.setZipCode(zipcode);
+		person.setEmail(email);
+		person.setTelephone(telephone);
+		
+		PersonDao personDao = new PersonDao();
+		String resultPerson = personDao.addPerson(person);
+		
 		Employee employee = new Employee();
-		employee.setEmail(email);
-		employee.setFirstName(firstName);
-		employee.setLastName(lastName);
-		employee.setAddress(address);
-		employee.setCity(city);
-		employee.setStartDate(startDate);
-		employee.setState(state);
-		employee.setZipCode(zipcode);
-		employee.setTelephone(telephone);
 		employee.setEmployeeID(ssn);
-		employee.setHourlyRate(hourlyRate);
 		employee.setEmployeeRole(role);
+		employee.setStartDate(startDate);
+		employee.setHourlyRate(hourlyRate);
 		
 		EmployeeDao employeeDao = new EmployeeDao();
-		String result = employeeDao.addEmployee(employee);
+		String resultEmployee = employeeDao.addEmployee(employee);
 		
-		if(result.equals("success")) {
-			Login login = new Login();
-			login.setUsername(email);
-			login.setPassword(password);
-			login.setRole("customerRepresentative");
-			LoginDao loginDao = new LoginDao();
-			String loginResult = loginDao.addUser(login);
-			if(loginResult.equals("success")) {
-				response.sendRedirect("managerHome.jsp?status=addEmployeeSuccess");
-			}
-			else {
-				response.sendRedirect("addEmployee.jsp?status=error");
-			}
+		if(resultPerson.equals("success") && resultEmployee.equals("success")) {
+//			Login login = new Login();
+//			login.setUsername(email);
+//			login.setPassword(password);
+//			login.setRole("customerRepresentative");
+//			LoginDao loginDao = new LoginDao();
+//			String loginResult = loginDao.addUser(login);
+//			if(loginResult.equals("success")) {
+//				response.sendRedirect("managerHome.jsp?status=addEmployeeSuccess");
+//			}
+//			else {
+//				response.sendRedirect("addEmployee.jsp?status=error");
+//			}
+			response.sendRedirect("managerHome.jsp?status=addEmployeeSuccess");
 		}
 		else {
 			response.sendRedirect("addEmployee.jsp?status=error");
