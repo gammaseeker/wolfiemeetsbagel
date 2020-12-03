@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Customer;
+import model.Profile;
 import model.Customer;
 
 import java.util.stream.IntStream;
@@ -13,6 +14,11 @@ public class CustomerDao {
 	/*
 	 * This class handles all the database operations related to the customer table
 	 */
+	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/wolfiemeetsbagel";
+	static final String DB_USER = "root";
+	static final String DB_PASS = "root";
+	
 	
 	/**
 	 * @return ArrayList<Customer> object
@@ -23,34 +29,44 @@ public class CustomerDao {
 		 */
 		
 		List<Customer> customers = new ArrayList<Customer>();
-
-		/*
-		 * The students code to fetch data from the database will be written here
-		 * Each record is required to be encapsulated as a "Customer" class object and added to the "customers" List
-		 */
+		String query = ""
+				+ "SELECT P.SSN, FirstName, LastName, Street, City, State, Zipcode, Telephone, "
+				+ "Email, AcctNum, AcctCreateDate, PPP, DateOfLastAct, CardNumber, Rating "
+				+ "FROM Person P, Account A, User U "
+				+ "WHERE P.SSN = A.OwnerSSN AND P.SSN = U.SSN";
+		ResultSet r = executeSelectQuery(query);
 		
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Customer customer = new Customer();
-			customer.setUserID("111-11-1111");
-			customer.setUserSSN("112-11-1111");
-			customer.setFirstName("Shiyong");
-			customer.setLastName("Lu");
-			customer.setAddress("123 Success Street12");
-			customer.setCity("Stony Brook");
-			customer.setState("NY");
-			customer.setZipCode(11790);
-			customer.setTelephone("5166328959");
-			customer.setEmail("shiyong@cs.sunysb.edu");
-			customer.setAccNum("12345");
-			customer.setAccCreateDate("12-12-2020");
-			customer.setCreditCard("1234567812345678");
-			customer.setPpp("User");
-			customer.setRating(1);
-			customer.setDateLastActive("12-12-2020");
-			customers.add(customer);
+		if (r == null) {
+			return null;
 		}
-		/*Sample data ends*/
+		
+		try {
+			while (r.next()) {
+				Customer customer = new Customer();
+				customer.setUserID(r.getString("SSN"));
+				customer.setUserSSN(r.getString("SSN"));
+				customer.setFirstName(r.getString("FirstName"));
+				customer.setLastName(r.getString("LastName"));
+				customer.setAddress(r.getString("Street"));
+				customer.setCity(r.getString("City"));
+				customer.setState(r.getString("State"));
+				customer.setZipCode(r.getInt("Zipcode"));
+				customer.setTelephone(r.getString("Telephone"));
+				customer.setEmail(r.getString("Email"));
+				customer.setAccNum(r.getString("AcctNum"));
+				customer.setAccCreateDate(r.getString("AcctCreateDate"));
+				customer.setPpp(r.getString("PPP"));
+				customer.setDateLastActive(r.getString("DateOfLastAct"));
+				customer.setCreditCard(r.getString("CardNumber"));
+				customer.setRating(r.getInt("Rating"));
+				customers.add(customer);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 		
 		return customers;
 	}
@@ -65,21 +81,39 @@ public class CustomerDao {
 
 		
 		List<Customer> customers = new ArrayList<Customer>();
+		String query = ""
+				+ "SELECT P.SSN, FirstName, LastName, Street, City, State, "
+				+ "Zipcode, Email, Telephone, Rating, CardNumber "
+				+ "FROM Person P, User U, Account A "
+				+ "WHERE P.SSN = A.OwnerSSN AND P.SSN = U.SSN";
+		ResultSet r = executeSelectQuery(query);
 		
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Customer customer = new Customer();
-			customer.setUserID("111-11-1111");
-			customer.setAddress("123 Success Street");
-			customer.setLastName("Lu");
-			customer.setFirstName("Shiyong");
-			customer.setCity("Stony Brook");
-			customer.setState("NY");
-			customer.setEmail("shiyong@cs.sunysb.edu");
-			customer.setZipCode(11790);
-			customers.add(customer);			
+		if (r == null) {
+			return null;
 		}
-		/*Sample data ends*/
+		
+		try {
+			while (r.next()) {
+				Customer customer = new Customer();
+				customer.setUserID(r.getString("SSN"));
+				customer.setFirstName(r.getString("FirstName"));
+				customer.setLastName(r.getString("LastName"));
+				customer.setAddress(r.getString("Street"));
+				customer.setCity(r.getString("City"));
+				customer.setState(r.getString("State"));
+				customer.setZipCode(r.getInt("Zipcode"));
+				customer.setEmail(r.getString("Email"));
+				customer.setTelephone(r.getString("Telephone"));
+				customer.setCreditCard(r.getString("CardNumber"));
+				customer.setRating(r.getInt("Rating"));
+				customers.add(customer);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 		
 		return customers;
 	}
@@ -274,6 +308,23 @@ public class CustomerDao {
 
 		return customers;
 	}
+	
+	private ResultSet executeSelectQuery(String query) {
+		
+		try {
+    		Class.forName(JDBC_DRIVER);
+    		Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+    		Statement st = con.createStatement();
+    		
+    		ResultSet rs = st.executeQuery(query);
+    		return rs;
+    		
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		return null;
+    	}
+	}
+	
 
 
 }
