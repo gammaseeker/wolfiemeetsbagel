@@ -31,26 +31,43 @@ public class LoginDao {
 			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
 			Statement st = con.createStatement();
 			
-			String checkRole = "SELECT * "
-							+  "FROM Login "
-							+  "WHERE Username='" + username + "' AND Password='" + password + "';";
-			ResultSet rs = st.executeQuery(checkRole);
-			
-			if (rs.next() == false) {
-				login = null;
-			} else {
-				login.setUsername(username);
-				login.setPassword(password);
-				login.setRole(rs.getString("Role"));
-				if(rs.getString("Role").toLowerCase().equals("customer")) {
+			String checkEmplpoyee = "SELECT Role "
+								+ 	"FROM Employee "
+								+ 	"WHERE SSN=( "
+								+ 		"SELECT SSN "
+								+ 		"FROM Person "
+								+ 		"WHERE Email='" + username + "' AND Password='" + password + "');";
+			ResultSet rs1 = st.executeQuery(checkEmplpoyee);
+
+			// We have to check if its customer if the username and password does not map to an employee
+			if (rs1.next() == false) {
+				String checkCustomer = "SELECT SSN "
+								   +   "FROM Person "
+								   +   "WHERE Email='" + username + "' AND Password='" + password + "';";
+				ResultSet rs2 = st.executeQuery(checkCustomer);
+				
+				if (rs2.next() == false) {
+					login = null;
+				} else {
+					login.setUsername(username);
+					login.setPassword(password);
+					login.setRole("customer");
+					
 					String getProfileID = "SELECT ProfileID "
-							+ "FROM Profile "
-							+ "WHERE Profile.OwnerSSN = \'" + rs.getString("SSN") + "\'";
-					rs = st.executeQuery(getProfileID);
-					while(rs.next()) {
-						login.addProfileID(rs.getString("ProfileID"));
+										+ "FROM Profile "
+										+ "WHERE Profile.OwnerSSN='" + rs2.getString("SSN") + "';";
+					ResultSet rs3 = st.executeQuery(getProfileID);
+					while(rs3.next()) {
+						login.addProfileID(rs3.getString("ProfileID"));
 					}
 					//System.out.println(login.getProfileID().toString()); DEBUG STATEMENT
+				}
+			} else {
+				String role = rs1.getString("Role");
+				if (role.equals("Manager")) {
+					login.setRole("manager");
+				} else {
+					login.setRole("customerRepresentative");
 				}
 			}
 		} catch (Exception e) {
