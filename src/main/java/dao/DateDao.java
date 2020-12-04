@@ -211,27 +211,39 @@ public class DateDao {
     }
 
 
-    public List<Date> getOpenDates() {
-
+    public List<Date> getOpenDates(String profileID) {
+    	// Open Dates is just the term used in the code base which means all the dates - both past and the pending. - Vibhor
         List<Date> dates = new ArrayList<Date>();
 
-        /*Sample data begins*/
-        for (int i = 0; i < 10; i++) {
-            Date date = new Date();
-            date.setDateID("12313123");
-            date.setUser1ID("1212");
-            date.setUser2ID("2121");
-            date.setDate("12-12-2020");
-            date.setGeolocation("location");
-            date.setBookingfee("21");
-            date.setCustRepresentative("Manoj Pandey");
-            date.setComments("Comments");
-            date.setUser1Rating("3");
-            date.setUser2Rating("3");
-            dates.add(date);
-        }
-        /*Sample data ends*/
+        try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			String outerQuery = 
+					"SELECT * FROM date WHERE (Profile1 = (\'" + profileID + "\') OR Profile2 = (\'" + profileID + "\'))";
+			Statement st2 = con.createStatement();
+			ResultSet rsFinal = st2.executeQuery(outerQuery);
+			while(rsFinal.next()) {
+				String profile1 = rsFinal.getString("Profile1");
+				String profile2 = rsFinal.getString("Profile2");
+				String dateTime = rsFinal.getString("Date_Time");
 
+				Date date = new Date();
+				date.setDateID(rsFinal.getString("DateID"));
+				date.setUser1ID(profile1);
+				date.setUser2ID(profile2);
+				date.setDate(dateTime);
+				date.setGeolocation(rsFinal.getString("Location"));
+				date.setBookingfee(Integer.toString(rsFinal.getInt("BookingFee")));
+				date.setCustRepresentative(rsFinal.getString("CustRep"));
+				date.setComments(rsFinal.getString("Comments"));
+				date.setUser1Rating(Integer.toString(rsFinal.getInt("User1Rating")));
+				date.setUser2Rating(Integer.toString(rsFinal.getInt("User2Rating")));
+				dates.add(date);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return dates;
     }
 
@@ -267,10 +279,25 @@ public class DateDao {
 			e.printStackTrace();
 			return "Failed";
     	}
-        return "Date - " + dateID + " is now cancelled";
+        return "Date " + dateID + " is now cancelled";
     }
 
     public String commentDate(String dateID, String comment) {
+    	try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+
+			st.execute(""
+				+ "UPDATE date " 
+				+ "SET Comments=\'"
+				+ comment + "\'"
+				+ "WHERE DateID=\'" + dateID + "\'");
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Failed";
+    	}
         return "Date - " + dateID + " has new comment - " + comment;
     }
 
@@ -317,45 +344,34 @@ public class DateDao {
         return income;
     }
 
-    public List<Date> getPendingDates(String userEmail) {
+    public List<Date> getPendingDates(String profileID) {
 
         List<Date> dates = new ArrayList<Date>();
 
         try {
 			Class.forName(JDBC_DRIVER);
 			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
-			Statement st = con.createStatement();
-			String innerQuery = 
-					"SELECT ProfileID "
-					+ "FROM profile "
-					+ "INNER JOIN person "
-					+ "ON profile.OwnerSSN = person.SSN "
-					+ "WHERE person.Email = \'"
-					+ userEmail + "\' ";
-			ResultSet rs = st.executeQuery(innerQuery);
-			while(rs.next()) {
-				String outerQuery = 
-						"SELECT * FROM date WHERE Date_Time > NOW() AND (Profile1 = (\'" + rs.getString("ProfileID") + "\') OR Profile2 = (\'" + rs.getString("ProfileID") + "\'))";
-				Statement st2 = con.createStatement();
-				ResultSet rsFinal = st2.executeQuery(outerQuery);
-				while(rsFinal.next()) {
-					String profile1 = rsFinal.getString("Profile1");
-					String profile2 = rsFinal.getString("Profile2");
-					String dateTime = rsFinal.getString("Date_Time");
+			String outerQuery = 
+					"SELECT * FROM date WHERE Date_Time > NOW() AND (Profile1 = (\'" + profileID + "\') OR Profile2 = (\'" + profileID + "\'))";
+			Statement st2 = con.createStatement();
+			ResultSet rsFinal = st2.executeQuery(outerQuery);
+			while(rsFinal.next()) {
+				String profile1 = rsFinal.getString("Profile1");
+				String profile2 = rsFinal.getString("Profile2");
+				String dateTime = rsFinal.getString("Date_Time");
 
-					Date date = new Date();
-					date.setDateID(rs.getString("DateID"));
-					date.setUser1ID(profile1);
-					date.setUser2ID(profile2);
-					date.setDate(dateTime);
-					date.setGeolocation(rsFinal.getString("Location"));
-					date.setBookingfee(Integer.toString(rsFinal.getInt("BookingFee")));
-					date.setCustRepresentative(rsFinal.getString("CustRep"));
-					date.setComments(rsFinal.getString("Comments"));
-					date.setUser1Rating(Integer.toString(rsFinal.getInt("User1Rating")));
-					date.setUser2Rating(Integer.toString(rsFinal.getInt("User2Rating")));
-					dates.add(date);
-				}
+				Date date = new Date();
+				date.setDateID(rsFinal.getString("DateID"));
+				date.setUser1ID(profile1);
+				date.setUser2ID(profile2);
+				date.setDate(dateTime);
+				date.setGeolocation(rsFinal.getString("Location"));
+				date.setBookingfee(Integer.toString(rsFinal.getInt("BookingFee")));
+				date.setCustRepresentative(rsFinal.getString("CustRep"));
+				date.setComments(rsFinal.getString("Comments"));
+				date.setUser1Rating(Integer.toString(rsFinal.getInt("User1Rating")));
+				date.setUser2Rating(Integer.toString(rsFinal.getInt("User2Rating")));
+				dates.add(date);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -365,45 +381,34 @@ public class DateDao {
         return dates;
     }
 
-    public List<Date> getPastDates(String userEmail) {
+    public List<Date> getPastDates(String profileID) {
 
         List<Date> dates = new ArrayList<Date>();
 
         try {
 			Class.forName(JDBC_DRIVER);
 			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
-			Statement st = con.createStatement();
-			String innerQuery = 
-					"SELECT ProfileID "
-					+ "FROM profile "
-					+ "INNER JOIN person "
-					+ "ON profile.OwnerSSN = person.SSN "
-					+ "WHERE person.Email = \'"
-					+ userEmail + "\' ";
-			ResultSet rs = st.executeQuery(innerQuery);
-			while(rs.next()) {
-				String outerQuery = 
-						"SELECT * FROM date WHERE Date_Time < NOW() AND (Profile1 = (\'" + rs.getString("ProfileID") + "\') OR Profile2 = (\'" + rs.getString("ProfileID") + "\'))";
-				Statement st2 = con.createStatement();
-				ResultSet rsFinal = st2.executeQuery(outerQuery);
-				while(rsFinal.next()) {
-					String profile1 = rsFinal.getString("Profile1");
-					String profile2 = rsFinal.getString("Profile2");
-					String dateTime = rsFinal.getString("Date_Time");
+			String outerQuery = 
+					"SELECT * FROM date WHERE Date_Time < NOW() AND (Profile1 = (\'" + profileID + "\') OR Profile2 = (\'" + profileID + "\'))";
+			Statement st2 = con.createStatement();
+			ResultSet rsFinal = st2.executeQuery(outerQuery);
+			while(rsFinal.next()) {
+				String profile1 = rsFinal.getString("Profile1");
+				String profile2 = rsFinal.getString("Profile2");
+				String dateTime = rsFinal.getString("Date_Time");
 
-					Date date = new Date();
-					date.setDateID(rs.getString("DateID"));
-					date.setUser1ID(profile1);
-					date.setUser2ID(profile2);
-					date.setDate(dateTime);
-					date.setGeolocation(rsFinal.getString("Location"));
-					date.setBookingfee(Integer.toString(rsFinal.getInt("BookingFee")));
-					date.setCustRepresentative(rsFinal.getString("CustRep"));
-					date.setComments(rsFinal.getString("Comments"));
-					date.setUser1Rating(Integer.toString(rsFinal.getInt("User1Rating")));
-					date.setUser2Rating(Integer.toString(rsFinal.getInt("User2Rating")));
-					dates.add(date);
-				}
+				Date date = new Date();
+				date.setDateID(rsFinal.getString("DateID"));
+				date.setUser1ID(profile1);
+				date.setUser2ID(profile2);
+				date.setDate(dateTime);
+				date.setGeolocation(rsFinal.getString("Location"));
+				date.setBookingfee(Integer.toString(rsFinal.getInt("BookingFee")));
+				date.setCustRepresentative(rsFinal.getString("CustRep"));
+				date.setComments(rsFinal.getString("Comments"));
+				date.setUser1Rating(Integer.toString(rsFinal.getInt("User1Rating")));
+				date.setUser2Rating(Integer.toString(rsFinal.getInt("User2Rating")));
+				dates.add(date);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

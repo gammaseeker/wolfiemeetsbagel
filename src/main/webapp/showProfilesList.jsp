@@ -64,12 +64,9 @@
 							   <input type="hidden" class="form-control" name="profileA" value=${profileID}>
 							   <input type="hidden" class="form-control" name="profileB" value=${cd.profileID}>
 						   </div>
-						   <select name="profileC" id="profileC">
-							   <option value="1">1</option>
-							   <option value="2">2</option>
-							   <option value="3">3</option>
-							   <option value="4">4</option>
-						   </select>
+						   <div class="form-group">
+						   		<input type="text" class="form-control" name="profileC" id="profileC">
+						   </div>
 						   <br/>
 						   <input type="submit" value="Refer" class="btn btn-success"/>
 					   </form>
