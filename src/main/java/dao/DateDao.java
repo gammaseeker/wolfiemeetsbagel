@@ -22,7 +22,8 @@ public class DateDao {
 			Statement st = con.createStatement();
 
 			st.execute(""
-				+ "INSERT INTO date VALUES (\'"
+				+ "INSERT INTO date (Profile1, Profile2, CustRep, Date_Time, Location, BookingFee, Comments, User1Rating, User2Rating) "
+				+ "VALUES (\'"
 				+ date.getUser1ID() + "\', \'" 
 				+ date.getUser2ID() + "\', \'"
 				+ date.getCustRepresentative() +"\', \'" 
