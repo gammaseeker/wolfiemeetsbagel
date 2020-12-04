@@ -36,9 +36,9 @@ public class DateDao {
     	} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Failed";
+			return "failed";
     	}
-    	return "Success";
+    	return "success";
     }
 
 
@@ -337,7 +337,7 @@ public class DateDao {
     	} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Failed";
+			return "failed";
     	}
         return "Date - " + dateID + " has new comment - " + comment;
     }

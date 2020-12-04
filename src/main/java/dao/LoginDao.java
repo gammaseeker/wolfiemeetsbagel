@@ -77,17 +77,18 @@ public class LoginDao {
 		return login;
 	}
 	
-	public String addUser(Login login) {
-		/*
-		 * Query to insert a new record for user login must be implemented
-		 * login, which is the "Login" Class object containing username and password for the new user, is given as method parameter
-		 * The username and password from login can get accessed using getter methods in the "Login" model
-		 * e.g. getUsername() method will return the username encapsulated in login object
-		 * Return "success" on successful insertion of a new user
-		 * Return "failure" for an unsuccessful database operation
-		 */
-		
-		return "success";
-	}
+//  NOT USED since we have the person table that have all the login information
+//	public String addUser(Login login) {
+//		/*
+//		 * Query to insert a new record for user login must be implemented
+//		 * login, which is the "Login" Class object containing username and password for the new user, is given as method parameter
+//		 * The username and password from login can get accessed using getter methods in the "Login" model
+//		 * e.g. getUsername() method will return the username encapsulated in login object
+//		 * Return "success" on successful insertion of a new user
+//		 * Return "failure" for an unsuccessful database operation
+//		 */
+//		
+//		return "success";
+//	}
 
 }
