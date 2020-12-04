@@ -74,18 +74,19 @@ public class AddCustomerController extends HttpServlet {
 		String result = customerDao.addCustomer(customer);
 		
 		if(result.equals("success")) {
-			Login login = new Login();
-			login.setUsername(email);
-			login.setPassword(password);
-			login.setRole("customer");
-			LoginDao loginDao = new LoginDao();
-			String loginResult = loginDao.addUser(login);
-			if(loginResult.equals("success")) {
-				response.sendRedirect("customerRepresentativeHome.jsp?status=addCustomerSuccess");
-			}
-			else {
-				response.sendRedirect("addCustomer.jsp?status=error");
-			}
+//			Login login = new Login();
+//			login.setUsername(email);
+//			login.setPassword(password);
+//			login.setRole("customer");
+//			LoginDao loginDao = new LoginDao();
+//			String loginResult = loginDao.addUser(login);
+//			if(loginResult.equals("success")) {
+//				response.sendRedirect("customerRepresentativeHome.jsp?status=addCustomerSuccess");
+//			}
+//			else {
+//				response.sendRedirect("addCustomer.jsp?status=error");
+//			}
+			response.sendRedirect("customerRepresentativeHome.jsp?status=addCustomerSuccess");
 		}
 		else {
 			response.sendRedirect("addCustomer.jsp?status=error");
