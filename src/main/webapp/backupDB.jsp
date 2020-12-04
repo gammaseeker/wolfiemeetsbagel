@@ -25,7 +25,23 @@
 	<div class="container" style="width: 35%;margin-top: 6%;">
 		<div class="row" style="text-align: center;border: 2px solid;padding: 5%;display: block;">
 
-			<h3>The database backup facility must go here</h3>
+			<h3>Please enter name of the backup file:</h3>
+
+			<form action="backupDB" method="POST">
+				<div class="form-group">
+					<label for="dbuser">Database Username</label>
+					<input type="text" class="form-control" id="dbuser" name="dbuser" value="root" required>
+					<label for="dbpassword">Database Password</label>
+					<input type="password" class="form-control" id="dbpassword" name="dbpassword" required>
+					<label for="dbname">Database Name</label>
+					<input type="text" class="form-control" id="dbname" name="dbname" value="wolfiemeetsbagel" required>
+					<label for="backupName">Back Up File Name </label>
+					<span>
+						<input type="text" class="form-control" id="backupName" name="backupName" value="backup" required>.sql
+					</span>
+				</div>
+			  	<button type="submit" class="btn btn-primary" style="display: table; margin: auto !important; width: 20% !important;" >Submit</button>
+			</form>
 		</div>
 
 
