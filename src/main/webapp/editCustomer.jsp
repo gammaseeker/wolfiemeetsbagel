@@ -33,76 +33,76 @@
 			<form action="addCustomer" method="POST">
 				<div class="form-group">
 					<label for="customerSSN">SSN</label>
-					<input type="email" class="form-control" id="customerSSN" name="customerSSN" placeholder="Enter SSN" required>
+					<input type="email" class="form-control" id="customerSSN" name="customerSSN" placeholder="Enter SSN" value="${editCustomer.userSSN}" required>
 				</div>
 				<div class="form-group">
 					<label for="customerEmail">Email address</label>
-					<input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="Enter email" required>
+					<input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="Enter email" value="${editCustomer.email}" required>
 				</div>
 				<div class="form-group">
 					<label for="customerPassword">Password</label>
-					<input type="password" class="form-control" id="customerPassword" name="customerPassword" placeholder="Password" required>
+					<input type="password" class="form-control" id="customerPassword" name="customerPassword" placeholder="Password" value="${editCustomer.password}" required>
 				</div>
 				<div class="form-group">
 					<label for="customerFirstName">First Name</label>
-					<input type="text" class="form-control" id="customerFirstName" name="customerFirstName" placeholder="First Name" required>
+					<input type="text" class="form-control" id="customerFirstName" name="customerFirstName" placeholder="First Name" value="${editCustomer.firstName}" required>
 				</div>
 				<div class="form-group">
 					<label for="customerLastName">Last Name</label>
-					<input type="text" class="form-control" id="customerLastName" name="customerLastName" placeholder="Last Name" required>
+					<input type="text" class="form-control" id="customerLastName" name="customerLastName" placeholder="Last Name" value="${editCustomer.lastName}" required>
 				</div>
 				<div class="form-group">
 					<label for="customerAddress">Address</label>
-					<input type="text" class="form-control" id="customerAddress" name="customerAddress" placeholder="Address" required>
+					<input type="text" class="form-control" id="customerAddress" name="customerAddress" placeholder="Address" value="${editCustomer.address}" required>
 				</div>
 				<div class="form-group">
 					<label for="customerCity">City</label>
-					<input type="text" class="form-control" id="customerCity" name="customerCity" placeholder="City" required>
+					<input type="text" class="form-control" id="customerCity" name="customerCity" placeholder="City"  value="${editCustomer.city}" required>
 				</div>
 				<div class="form-group">
 					<label for="customerState">State</label>
-					<input type="text" class="form-control" id="customerState" name="customerState" placeholder="State" required>
+					<input type="text" class="form-control" id="customerState" name="customerState" placeholder="State" value="${editCustomer.state}" required>
 				</div>
 				<div class="form-group">
 					<label for="customerZipcode">Zipcode</label>
-					<input type="text" class="form-control" id="customerZipcode" name="customerZipcode" placeholder="Zipcode" required>
+					<input type="text" class="form-control" id="customerZipcode" name="customerZipcode" placeholder="Zipcode"  value="${editCustomer.zipCode}" required>
 				</div>
 				<div class="form-group">
 					<label for="customerTelephone">Telephone</label>
-					<input type="text" class="form-control" id="customerTelephone" name="customerTelephone" placeholder="Telephone number" required>
+					<input type="text" class="form-control" id="customerTelephone" name="customerTelephone" placeholder="Telephone number" value="${editCustomer.telephone}" required>
 				</div>
 				<div class="form-group">
 					<label for="customerAcc">Account Number</label>
-					<input type="text" class="form-control" id="customerAcc" name="customerAcc" placeholder="XXX-XX-XXXX" required>
+					<input type="text" class="form-control" id="customerAcc" name="customerAcc" placeholder="XXX-XX-XXXX" value="${editCustomer.accNum}" required>
 				</div>
 
 				<div class="form-group">
 					<label for="customerAccCreate">Account Creation Date</label>
-					<input type="date" class="form-control" id="customerAccCreate" name="customerAccCreate" required>
+					<input type="date" class="form-control" id="customerAccCreate" name="customerAccCreate" value="${editCustomer.accCreateDate}" required>
 				</div>
 
 				<div class="form-group">
 					<label for="customerCreditCard">Credit Card Number</label>
-					<input type="text" class="form-control" id="customerCreditCard" name="customerCreditCard" placeholder="Credit Card Number" required>
+					<input type="text" class="form-control" id="customerCreditCard" name="customerCreditCard" placeholder="Credit Card Number" value="${editCustomer.creditCard}" required>
 				</div>
 
 				<div class="form-group">
 					<label for="ppp">Profile Placement Priority</label>
-					<select name="ppp" id="ppp">
-						<option value="volvo">Super</option>
-						<option value="saab">Good</option>
-						<option value="opel">User</option>
+					<select name="ppp" id="ppp" value="${editCustomer.ppp}">
+						<option value="Super-User">Super</option>
+						<option value="Good-User">Good</option>
+						<option value="User-User">User</option>
 					</select>
 				</div>
 
 				<div class="form-group">
 					<label for="customerRating">Rating</label>
-					<input type="text" class="form-control" id="customerRating" name="customerRating" placeholder="Rating" required>
+					<input type="text" class="form-control" id="customerRating" name="customerRating" placeholder="Rating" value="${editCustomer.rating}" required>
 				</div>
 
 				<div class="form-group">
 					<label for="customerLastActive">Last Active</label>
-					<input type="date" class="form-control" id="customerLastActive" name="customerLastActive" required>
+					<input type="date" class="form-control" id="customerLastActive" name="customerLastActive" value="${editCustomer.dateLastActive}" required>
 				</div>
 
 				<button type="submit" class="btn btn-primary">Submit</button>

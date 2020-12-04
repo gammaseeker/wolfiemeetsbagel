@@ -31,7 +31,7 @@ public class CustomerDao {
 		List<Customer> customers = new ArrayList<Customer>();
 		String query = ""
 				+ "SELECT P.SSN, FirstName, LastName, Street, City, State, Zipcode, Telephone, "
-				+ "Email, AcctNum, AcctCreateDate, PPP, DateOfLastAct, CardNumber, Rating "
+				+ "Email, AcctNum, AcctCreateDate, PPP, DateOfLastAct, CardNumber, Rating, Password "
 				+ "FROM Person P, Account A, User U "
 				+ "WHERE P.SSN = A.OwnerSSN AND P.SSN = U.SSN";
 		ResultSet r = executeSelectQuery(query);
@@ -59,6 +59,7 @@ public class CustomerDao {
 				customer.setDateLastActive(r.getString("DateOfLastAct"));
 				customer.setCreditCard(r.getString("CardNumber"));
 				customer.setRating(r.getInt("Rating"));
+				customer.setPassword(r.getString("Password"));
 				customers.add(customer);
 			}
 
@@ -127,22 +128,49 @@ public class CustomerDao {
 		 * The customer record is required to be encapsulated as a "Customer" class object
 		 */
 		
-		/*Sample data begins*/
-		Customer customer = new Customer();
-		customer.setUserID("111-11-1111");
-		customer.setAddress("123 Success Street");
-		customer.setLastName("Lu");
-		customer.setFirstName("Shiyong");
-		customer.setCity("Stony Brook");
-		customer.setState("NY");
-		customer.setEmail("shiyong@cs.sunysb.edu");
-		customer.setZipCode(11790);
-		customer.setTelephone("5166328959");
-		customer.setCreditCard("1234567812345678");
-		customer.setRating(1);
-		/*Sample data ends*/
+		String query = ""
+				+ "SELECT P.SSN, FirstName, LastName, Street, City, State, Zipcode, Telephone, "
+				+ "Email, AcctNum, AcctCreateDate, PPP, DateOfLastAct, CardNumber, Rating, Password "
+				+ "FROM Person P, Account A, User U "
+				+ "WHERE P.SSN = A.OwnerSSN AND P.SSN = U.SSN "
+				+ "AND U.SSN = ?";
 		
-		return customer;
+		
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, customerID);
+			
+			ResultSet r = ps.executeQuery();
+			if (r == null || !r.next()) {
+				return null;
+			}
+			
+			Customer customer = new Customer();
+			customer.setUserID(r.getString("SSN"));
+			customer.setUserSSN(r.getString("SSN"));
+			customer.setFirstName(r.getString("FirstName"));
+			customer.setLastName(r.getString("LastName"));
+			customer.setAddress(r.getString("Street"));
+			customer.setCity(r.getString("City"));
+			customer.setState(r.getString("State"));
+			customer.setZipCode(r.getInt("Zipcode"));
+			customer.setTelephone(r.getString("Telephone"));
+			customer.setEmail(r.getString("Email"));
+			customer.setAccNum(r.getString("AcctNum"));
+			customer.setAccCreateDate(r.getString("AcctCreateDate"));
+			customer.setPpp(r.getString("PPP"));
+			customer.setDateLastActive(r.getString("DateOfLastAct"));
+			customer.setCreditCard(r.getString("CardNumber"));
+			customer.setRating(r.getInt("Rating"));
+			customer.setPassword(r.getString("Password"));
+			return customer;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public String deleteCustomer(String customerID) {
