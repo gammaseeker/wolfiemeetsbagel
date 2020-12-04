@@ -43,6 +43,7 @@ public class BackupDBController extends HttpServlet {
 						"mysqldump -u " + dbUsername + " -p" + dbPassword + " --databases " + dbName + " > C:\\" + filename +".sql");
 			}
 			else {
+				// TODO write in docs to HIGHLY recommend using a unix machine
 				processBuilder.command("sh", 
 						"-c", 
 						"/usr/local/mysql/bin/mysqldump -u " + dbUsername + " -p" + dbPassword + " --databases " + dbName + " > ~/" + filename +".sql");
