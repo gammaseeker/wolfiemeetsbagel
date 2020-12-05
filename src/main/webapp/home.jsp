@@ -60,7 +60,14 @@
 								<div class="form-group">
 									<input type="hidden" class="form-control" name="profileID" value=${profileID}>
 								</div>
-								<input type="submit" value="Comment/Cancel Date" class="btn btn-success"/>
+								<input type="submit" value="Cancel Date" class="btn btn-success"/>
+							</form>
+							<br/>
+							<form action="commentDate">
+								<div class="form-group">
+									<input type="hidden" class="form-control" name="profileID" value=${profileID}>
+								</div>
+								<input type="submit" value="Comment Date" class="btn btn-success"/>
 							</form>
 
 						</div>
