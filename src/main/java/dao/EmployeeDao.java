@@ -196,4 +196,35 @@ public class EmployeeDao {
 		}
 		return result;
 	}
+	
+	public Employee getEmployeeWithMaxRevenue() {
+		Employee employee = new Employee();
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			
+			Statement st = con.createStatement();
+			String getEmployeeWithMaxRevenue = "SELECT CustRep, SUM(BookingFee) AS Revenue "
+											+  "FROM Date "
+											+  "GROUP BY CustRep "
+											+  "ORDER BY SUM(BookingFee) DESC "
+											+  "LIMIT 1;";
+			
+			ResultSet rs = st.executeQuery(getEmployeeWithMaxRevenue);
+			int revenue = 0;
+			String ssn = "";
+			if (rs.next()) {
+				ssn = rs.getString("CustRep");
+				revenue = rs.getInt("Revenue");
+			}
+			if (!ssn.equals("")) {
+				employee = this.getEmployee(ssn);
+				employee.setRevenue(String.valueOf(revenue));
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
+		return employee;
+	}
 }

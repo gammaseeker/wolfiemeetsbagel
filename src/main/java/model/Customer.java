@@ -11,9 +11,9 @@ public class Customer {
     private String userSSN;
     private String firstName;
     private String lastName;
-    private String Address;
-    private String City;
-    private String State;
+    private String address;
+    private String city;
+    private String state;
     private int zipCode;
     private String telephone;
     private String email;
@@ -22,6 +22,7 @@ public class Customer {
     private String ppp;
     private String dateLastActive;
     private String creditCard;
+    private String password;
     private int rating;
 
     public String getFirstName() {
@@ -41,27 +42,27 @@ public class Customer {
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
 
     public void setAddress(String address) {
-        Address = address;
+        this.address = address;
     }
 
     public String getCity() {
-        return City;
+        return city;
     }
 
     public void setCity(String city) {
-        City = city;
+        this.city = city;
     }
 
     public String getState() {
-        return State;
+        return state;
     }
 
     public void setState(String state) {
-        State = state;
+        this.state = state;
     }
 
     public int getZipCode() {
@@ -107,7 +108,7 @@ public class Customer {
     @Override
     public String toString() {
         return "The Customer Details are: <br/>Customer ID=" + userID + "<br/>First Name=" + firstName + "<br/>Last Name=" + lastName
-                + "<br/>Address=" + Address + "<br/>City=" + City + "<br/>State=" + State + "<br/>Zip Code=" + zipCode
+                + "<br/>Address=" + address + "<br/>City=" + city + "<br/>State=" + state + "<br/>Zip Code=" + zipCode
                 + "<br/>Telephone=" + telephone + "<br/>Email=" + email + "<br/>Credit Card=" + creditCard + "<br/>Rating=" + rating;
     }
 
@@ -157,5 +158,13 @@ public class Customer {
 
     public void setUserSSN(String userSSN) {
         this.userSSN = userSSN;
+    }
+    
+    public String getPassword() {
+    	return password;
+    }
+    
+    public void setPassword(String password) {
+    	this.password = password;
     }
 }
