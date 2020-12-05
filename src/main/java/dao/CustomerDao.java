@@ -237,18 +237,10 @@ public class CustomerDao {
 	 */
 	public List<Customer>  getMostActiveUser(){
 		List<Customer> customers = new ArrayList<Customer>();
-
-		/*
-		 * This method fetches the all customer mailing details and returns it
-		 * The students code to fetch data from the database will be written here
-		 * Each customer record is required to be encapsulated as a "Customer" class object and added to the "customers" List
-		 */
 		
 		String query = ""
-				+ "SELECT P.SSN, FirstName, LastName, Street, City, State, "
-				+ "Zipcode, Email, Telephone "
-				+ "FROM Person P, User U "
-				+ "WHERE P.SSN = U.SSN "
+				+ "SELECT SSN "
+				+ "FROM User "
 				+ "ORDER BY DateOfLastAct Desc "
 				+ "LIMIT 5";
 		ResultSet r = executeSelectQuery(query);
@@ -297,7 +289,29 @@ public class CustomerDao {
 	public List<Customer> getHighestRatedCustomer(){
 		List<Customer> customers = new ArrayList<Customer>();
 
+		String query = ""
+				+ "SELECT SSN, Rating "
+				+ "FROM User "
+				+ "ORDER BY Rating Desc "
+				+ "LIMIT 5";
+		ResultSet r = executeSelectQuery(query);
 		
+		if (r == null) {
+			return null;
+		}
+		
+		try {
+			while (r.next()) {
+				Customer customer = new Customer();
+				customer.setUserSSN(r.getString("SSN"));
+				customer.setRating(r.getInt("rating"));
+				customers.add(customer);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 
 		return customers;
 	}
