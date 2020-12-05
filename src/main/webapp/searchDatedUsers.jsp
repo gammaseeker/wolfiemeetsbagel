@@ -31,7 +31,7 @@
     					<div class="container">
 							<form method="POST" action="searchDatedUsersByCustomerName">
 								<label for="customerName">Customer Name:</label>
-	    						<input type="text" class="form-control" id="customerName" name="customerName" placeholder="Type Customer Name">
+	    						<input type="text" class="form-control" id="customerName" name="customerName" placeholder="Type Customer SSN">
 								<br/>
 								<input type="submit" value="Search" class="btn btn-primary btn-bet"/>
 							</form>

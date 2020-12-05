@@ -264,24 +264,43 @@ public class CustomerDao {
 		return customers;
 	}
 
-	public List<Customer> getDatedCustomers(String primary){
+	public List<Customer> getDatedCustomers(String customerID){
 
 		List<Customer> customers = new ArrayList<Customer>();
+		
+		String query = ""
+				+ "SELECT F.OwnerSSN AS SSN, Pe.FirstName, Pe.LastName "
+				+ "FROM ("
+				+ "SELECT D.Profile1, D.Profile2 "
+				+ "FROM Date D, Profile P "
+				+ "WHERE P.OwnerSSN=? AND (P.ProfileID=D.Profile1 OR P.ProfileID=D.Profile2) "
+				+ ") result, Profile F, Person Pe "
+				+ "WHERE NOT(F.OwnerSSN=?) "
+				+ "AND (F.ProfileID=result.Profile1 OR F.ProfileID=result.Profile2) "
+				+ "AND Pe.SSN = F.OwnerSSN";
+		
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, customerID);
+			ps.setString(2, customerID);
+			System.out.println(ps);
+			
+			ResultSet r = ps.executeQuery();
+			
+			while (r.next()) {
+				Customer customer = new Customer();
+				customer.setUserSSN(r.getString("SSN"));
+				customer.setFirstName(r.getString("FirstName"));
+				customer.setLastName(r.getString("LastName"));
+				customers.add(customer);
+			}
 
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Customer customer = new Customer();
-			customer.setUserID("111-11-1111");
-			customer.setAddress("123 Success Street");
-			customer.setLastName("Lu");
-			customer.setFirstName("Upendra Nath Chaurasia");
-			customer.setCity("Stony Brook");
-			customer.setState("NY");
-			customer.setEmail("uppu_chaur@cs.sunysb.edu");
-			customer.setZipCode(11790);
-			customers.add(customer);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		/*Sample data ends*/
 
 		return customers;
 	}
