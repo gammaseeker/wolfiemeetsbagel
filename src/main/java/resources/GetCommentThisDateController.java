@@ -32,7 +32,7 @@ public class GetCommentThisDateController extends HttpServlet {
 		String dateID = request.getParameter("dateID");
 		String comment = request.getParameter("comment");
 
-		System.out.println("Date = "+dateID+" comment = "+comment);
+		// System.out.println("Date = "+dateID+" comment = "+comment); Debug statement
 
 		DateDao dao = new DateDao();
 		String result = dao.commentDate(dateID, comment);
