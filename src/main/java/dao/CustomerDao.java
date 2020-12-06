@@ -232,25 +232,32 @@ public class CustomerDao {
 	}
 
 
-
 	public List<Customer>  getMostActiveUser(){
 		List<Customer> customers = new ArrayList<Customer>();
-
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Customer customer = new Customer();
-			customer.setUserID("111-11-1111");
-			customer.setUserSSN("112-11-1111");
-			customer.setAddress("123 Success Street");
-			customer.setLastName("Lu");
-			customer.setFirstName("Upendra Nath Chaurasia");
-			customer.setCity("Stony Brook");
-			customer.setState("NY");
-			customer.setEmail("uppu_chaur@cs.sunysb.edu");
-			customer.setZipCode(11790);
-			customers.add(customer);
+		
+		String query = ""
+				+ "SELECT SSN, DateOfLastAct "
+				+ "FROM User "
+				+ "ORDER BY DateOfLastAct Desc "
+				+ "LIMIT 5";
+		ResultSet r = executeSelectQuery(query);
+		
+		if (r == null) {
+			return null;
 		}
-		/*Sample data ends*/
+		
+		try {
+			while (r.next()) {
+				Customer customer = new Customer();
+				customer.setUserSSN(r.getString("SSN"));
+				customer.setDateLastActive(r.getString("DateOfLastAct"));
+				customers.add(customer);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 
 		return customers;
 	}
@@ -280,21 +287,7 @@ public class CustomerDao {
 	public List<Customer> getHighestRatedCustomer(){
 		List<Customer> customers = new ArrayList<Customer>();
 
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Customer customer = new Customer();
-			customer.setUserID("111-11-1111");
-			customer.setUserSSN("112-11-1111");
-			customer.setAddress("123 Success Street");
-			customer.setLastName("Lu");
-			customer.setFirstName("Upendra Nath Chaurasia");
-			customer.setCity("Stony Brook");
-			customer.setState("NY");
-			customer.setEmail("uppu_chaur@cs.sunysb.edu");
-			customer.setZipCode(11790);
-			customers.add(customer);
-		}
-		/*Sample data ends*/
+		
 
 		return customers;
 	}
