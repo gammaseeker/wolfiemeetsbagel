@@ -174,17 +174,17 @@ public class CustomerDao {
 	}
 	
 	public String deleteCustomer(String customerID) {
-
-		/*
-		 * This method deletes a customer returns "success" string on success, else returns "failure"
-		 * The students code to delete the data from the database will be written here
-		 * customerID, which is the Customer's ID who's details have to be deleted, is given as method parameter
-		 */
-
-		/*Sample data begins*/
-		return "success";
-		/*Sample data ends*/
-		
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+			PreparedStatement ps = con.prepareStatement("DELETE FROM User WHERE SSN=?");
+			ps.setString(1, customerID);
+			ps.executeUpdate();
+			return "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "failure";
+		}
 	}
 
 
@@ -239,7 +239,7 @@ public class CustomerDao {
 		List<Customer> customers = new ArrayList<Customer>();
 		
 		String query = ""
-				+ "SELECT SSN, DateOfLastAct "
+				+ "SELECT SSN "
 				+ "FROM User "
 				+ "ORDER BY DateOfLastAct Desc "
 				+ "LIMIT 5";
@@ -253,7 +253,6 @@ public class CustomerDao {
 			while (r.next()) {
 				Customer customer = new Customer();
 				customer.setUserSSN(r.getString("SSN"));
-        customer.setDateLastActive(r.getString("DateOfLastAct"));
 				customers.add(customer);
 			}
 
