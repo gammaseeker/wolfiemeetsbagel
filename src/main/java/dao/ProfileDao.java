@@ -13,6 +13,8 @@ public class ProfileDao {
 	
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/wolfiemeetsbagel";
+	static final String DB_USER = "root";
+	static final String DB_PASS = "root";
 	static final String[] commonQueryFields = new String[] {
 			"ProfileID",
 			"CONCAT(FirstName, \' \', LastName) AS Name",
@@ -105,6 +107,33 @@ public class ProfileDao {
         return getProfilesFromQuery(getProfilesByHairColorQuery);
     }
     
+    public List<Profile> getHighlyRatedProfiles() {
+    	List<Profile> profiles = new ArrayList<Profile>();
+    	String query = ""
+    			+ "SELECT P.ProfileID, U.Rating "
+    			+ "FROM Profile P, User U "
+    			+ "WHERE P.OwnerSSN = U.SSN "
+    			+ "ORDER BY U.Rating DESC";
+    	try {
+    		Class.forName(JDBC_DRIVER);
+    		Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+    		Statement st = con.createStatement();
+    		
+    		ResultSet rs = st.executeQuery(query);
+    		while (rs.next()) {
+    			Profile profile = new Profile();
+    			profile.setProfileID(rs.getString("ProfileID"));
+    			profile.setRating(rs.getInt("Rating"));
+    			profiles.add(profile);
+    		}
+    		
+    		return profiles;
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		return null;
+    	}
+    }
+    
     /**
      * 
      * @param query the Select query returning some subset of profiles.
@@ -116,7 +145,7 @@ public class ProfileDao {
     	List<Profile> profiles = new ArrayList<Profile>();
     	try {
     		Class.forName(JDBC_DRIVER);
-    		Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+    		Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
     		Statement st = con.createStatement();
     		
     		ResultSet rs = st.executeQuery(query);
@@ -142,5 +171,7 @@ public class ProfileDao {
     	
     	return profiles;
     }
+    
+    
 
 }

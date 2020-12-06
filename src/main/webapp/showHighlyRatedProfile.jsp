@@ -35,8 +35,8 @@
 			<tbody>
 			<c:forEach items="${profiles}" var="cd">
 				<tr>
-					<td>${cd}</td>
-					<td>${rate}</td>
+					<td>${cd.profileID}</td>
+					<td>${cd.rating}</td>
 				</tr>
 			</c:forEach>
 			</tbody>
