@@ -29,11 +29,14 @@
 	<c:if test="${empty editCustomer}">
 		<h3> Customer details not found! <h3/> 
 	</c:if>
-	<c:if test="${not empty editCustomer}">
-			<form action="addCustomer" method="POST">
+	<c:if test="${param.status == 'error'}">
+		<h3> There was an error updating the customer! <h3/> 
+	</c:if>
+	<c:if test="${not empty editCustomer && param.status != 'error'}">
+			<form action="updateCustomer" method="POST">
 				<div class="form-group">
 					<label for="customerSSN">SSN</label>
-					<input type="email" class="form-control" id="customerSSN" name="customerSSN" placeholder="Enter SSN" value="${editCustomer.userSSN}" required>
+					<input type="text" class="form-control" id="customerSSN" name="customerSSN" placeholder="Enter SSN" value="${editCustomer.userSSN}" required readonly>
 				</div>
 				<div class="form-group">
 					<label for="customerEmail">Email address</label>
@@ -73,7 +76,7 @@
 				</div>
 				<div class="form-group">
 					<label for="customerAcc">Account Number</label>
-					<input type="text" class="form-control" id="customerAcc" name="customerAcc" placeholder="XXX-XX-XXXX" value="${editCustomer.accNum}" required>
+					<input type="text" class="form-control" id="customerAcc" name="customerAcc" placeholder="XXX-XX-XXXX" value="${editCustomer.accNum}" required >
 				</div>
 
 				<div class="form-group">
