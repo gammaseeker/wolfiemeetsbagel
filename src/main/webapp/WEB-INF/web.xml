@@ -1011,6 +1011,16 @@
 	</servlet-mapping>
 
 
+	<servlet>
+		<servlet-name>BackupDBController</servlet-name>
+		<display-name>BackupDBController</display-name>
+		<description></description>
+		<servlet-class>resources.BackupDBController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BackupDBController</servlet-name>
+		<url-pattern>/backupDB</url-pattern>
+	</servlet-mapping>
 
 
 	<servlet>
