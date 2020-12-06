@@ -12,6 +12,21 @@ public class Person {
     private int zipcode;
     private String email;
     private String telephone;
+    
+    public Person() {}
+    
+    //Construct a person for the corresponding customer
+    public Person (Customer c) {
+    	this.setPersonID(c.getUserID());
+		this.setFirstName(c.getFirstName());
+		this.setLastName(c.getLastName());
+		this.setStreet(c.getAddress());
+		this.setCity(c.getCity());
+		this.setState(c.getState());
+		this.setZipCode(c.getZipCode());
+		this.setEmail(c.getEmail());
+		this.setTelephone(c.getTelephone());
+    }
 
     public String getPersonID() {
         return personID;
