@@ -287,7 +287,29 @@ public class CustomerDao {
 	public List<Customer> getHighestRatedCustomer(){
 		List<Customer> customers = new ArrayList<Customer>();
 
+		String query = ""
+				+ "SELECT SSN, Rating "
+				+ "FROM User "
+				+ "ORDER BY Rating Desc "
+				+ "LIMIT 5";
+		ResultSet r = executeSelectQuery(query);
 		
+		if (r == null) {
+			return null;
+		}
+		
+		try {
+			while (r.next()) {
+				Customer customer = new Customer();
+				customer.setUserSSN(r.getString("SSN"));
+				customer.setRating(r.getInt("rating"));
+				customers.add(customer);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 
 		return customers;
 	}
