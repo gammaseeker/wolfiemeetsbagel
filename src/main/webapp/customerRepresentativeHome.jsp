@@ -13,16 +13,41 @@
 		<meta name="viewport" content="width:device-width, initial-scale=1">
 		<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
 		<title>Customer Representative Home</title>
+		
+		<script>
+			function getHelp(){
+				var sel = document.getElementById('help');
+				
+				switch(sel.value) {
+					case "1":
+						window.location.href = "helpRecordADate.jsp";
+						break;
+					case "2":
+						window.location.href = "helpManageCustomer.jsp";
+						break;
+					case "3":
+						window.location.href = "helpViewCustomerMailingList.jsp";
+						break;
+					case "4":
+						window.location.href = "helpViewDateSuggestions.jsp";
+						break;
+					default:
+						break;
+				}
+			}
+		</script>
+		
 	</head>
 	<body>
 	
 		<h1>Welcome to the Online Dating System!</h1>
 		<label for="help">Help Topics</label>
-		<select name="help" id="help">
-			<option value="1">Topic 1</option>
-			<option value="2">Topic 2</option>
-			<option value="3">Topic 3</option>
-			<option value="4">Topic 4</option>
+		<select name="help" id="help" onchange="getHelp();">
+			<option value="">Help... </option>
+			<option value="1">Record a Date</option>
+			<option value="2">Manage Customer</option>
+			<option value="3">View Customer Mailing List</option>
+			<option value="4">View Date Suggestions for Customers</option>
 		</select>
 		<div class="container">
 			<h2>Customer Representative Options:</h2>
