@@ -27,42 +27,46 @@
 	<div>
 	<h1>The Date Suggestions for ID <c:out value = "${userID}"/>  are:</h1>
 	<c:if test="${empty customers}">
-		<h3> Customer details not found! <h3/> 
+		<h3> There are no date suggestions for this customer at this time! <h3/> 
 	</c:if>
 	<c:if test="${not empty customers}">
 		<table class="table table-striped">
 		  <thead>
 		    <tr>
-		      <th>Customer ID</th>
-		      <th>Customer SSN</th>
-		      <th>First Name</th>
-		      <th>Last Name</th>
-		      <th>Address</th>
-		      <th>City</th>
-		      <th>State</th>
-		      <th>Zip Code</th>
-			  <th>Telephone</th>
-			  <th>Email</th>
-			  <th>Credit Card</th>
-			  <th>Rating</th>
-
+		      <% if (request.getParameter("isCustomer") == null) { %>
+			      <th>Customer SSN</th>
+			      <th>Address</th>
+			      <th>City</th>
+			      <th>State</th>
+			      <th>Zip Code</th>
+			      <th>Credit Card</th>
+				  <th>Rating</th>
+			  <% } %>
+			      <th>First Name</th>
+			      <th>Last Name</th>
+				  <th>Telephone</th>
+				  <th>Email</th>
+				  
+				
 		    </tr>
 		  </thead>
 		  <tbody>
 		     <c:forEach items="${customers}" var="cd">
 		       <tr>
+		       	<% if (request.getParameter("isCustomer") == null) { %>
 		         <td>${cd.userID}</td>
-		         <td>${cd.userSSN}</td>
-		         <td>${cd.firstName}</td>
-		         <td>${cd.lastName}</td>
 		         <td>${cd.address}</td>
 		         <td>${cd.city}</td>
 		         <td>${cd.state}</td>
 		         <td>${cd.zipCode}</td>
-		         <td>${cd.telephone}</td>
-		         <td>${cd.email}</td>
 		         <td>${cd.creditCard}</td>
 		         <td>${cd.rating}</td>
+		      	<% } %> 	
+		         <td>${cd.firstName}</td>
+		         <td>${cd.lastName}</td>
+		         <td>${cd.telephone}</td>
+		         <td>${cd.email}</td>
+		         
 			   </tr>
 		     </c:forEach>
 		  </tbody>

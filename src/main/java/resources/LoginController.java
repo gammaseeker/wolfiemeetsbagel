@@ -66,6 +66,10 @@ public class LoginController extends HttpServlet {
 				CustomerDao customerDao = new CustomerDao();
 				String customerID = customerDao.getCustomerID(username);
 				List<String> profileIDs = login.getProfileID();
+				System.out.println(profileIDs.size());
+				for(String s: profileIDs) {
+					System.out.println(s);
+				}
 				request.getSession(true).setAttribute("customerID", customerID);
 				request.setAttribute("profileIDs", profileIDs);
 				RequestDispatcher rd = request.getRequestDispatcher("pickProfile.jsp");
