@@ -26,14 +26,14 @@
 			<thead>
 			<tr>
 				<th>Customer SSN</th>
-				<th>Rate</th>
+				<th>Date Last Active</th>
 			</tr>
 			</thead>
 			<tbody>
 			<c:forEach items="${customers}" var="cd">
 				<tr>
 					<td>${cd.userSSN}</td>
-					<td>35</td>
+					<td>${cd.dateLastActive}</td>
 				</tr>
 			</c:forEach>
 			</tbody>

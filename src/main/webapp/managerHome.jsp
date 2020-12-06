@@ -14,16 +14,28 @@
 		<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
 		<link href="css/style_main.css" rel="stylesheet" />
 		<title>Manager Home</title>
+		<script>
+			function getHelp(){
+				var sel = document.getElementById('help');
+				var helpPages = ["helpManageEmployee.jsp", "helpManageUsers.jsp", 
+					"helpGenerateSales.jsp", "helpViewDates.jsp", "helpBackupDB.jsp"];
+
+				window.location.href = helpPages[sel.value];
+			}
+		</script>
 	</head>
+	
 	<body>
 	
 		<h2 style="text-align: center; padding: 3%">Welcome to the Online Dating System!</h2>
 		<label for="help">Help Topics</label>
-		<select name="help" id="help">
-			<option value="1">Topic 1</option>
-			<option value="2">Topic 2</option>
-			<option value="3">Topic 3</option>
-			<option value="4">Topic 4</option>
+		<select name="help" id="help" onchange="getHelp();">
+			<option value="">Help... </option>
+			<option value="0">Manage Employees</option>
+			<option value="1">Manage Users</option>
+			<option value="2">Generate a Sales Report </option>
+			<option value="3">View Dates</option>
+			<option value="4">Backup DB</option>
 		</select>
 		<div class="container">
 			<h3>Manager Options:</h3>

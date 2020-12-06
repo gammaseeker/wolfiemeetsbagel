@@ -80,19 +80,21 @@ public class AddNewDateController extends HttpServlet {
 		String result = dao.addDate(date);
 
 		if(result.equals("success")) {
-			Login login = new Login();
-			login.setUsername("email");
-			login.setPassword("password");
-			login.setRole("customerRepresentative");
-			LoginDao loginDao = new LoginDao();
-			String loginResult = loginDao.addUser(login);
-			if(loginResult.equals("success")) {
-				response.sendRedirect("managerHome.jsp?status=addDateSuccess");
-			}
-			else {
-				// Create addDate.jsp page to add this date to the database
-				response.sendRedirect("addDate.jsp");
-			}
+//			Login login = new Login();
+//			login.setUsername("email");
+//			login.setPassword("password");
+//			login.setRole("customerRepresentative");
+//			LoginDao loginDao = new LoginDao();
+//			String loginResult = loginDao.addUser(login);
+//			if(loginResult.equals("success")) {
+//				response.sendRedirect("managerHome.jsp?status=addDateSuccess");
+//			}
+//			else {
+//				// Create addDate.jsp page to add this date to the database
+//				response.sendRedirect("addDate.jsp");
+//			}
+//			response.sendRedirect("managerHome.jsp?status=addDateSuccess");
+			response.sendRedirect("customerRepresentativeHome.jsp?status=addDateSuccess");
 		}
 		else {
 			response.sendRedirect("addDate.jsp");
