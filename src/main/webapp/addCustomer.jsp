@@ -28,10 +28,14 @@
 	
 	<h1>Add a new Customer:</h1>
 
+	<c:if test="${param.status == 'error'}">
+		<h3> There was an error adding the customer! <h3/> 
+	</c:if>
+	<c:if test="${param.status != 'error'}">
 	<form action="addCustomer" method="POST">
 		<div class="form-group">
 			<label for="customerSSN">SSN</label>
-			<input type="email" class="form-control" id="customerSSN" name="customerSSN" placeholder="Enter SSN" required>
+			<input class="form-control" id="customerSSN" name="customerSSN" placeholder="Enter SSN" required>
 		</div>
 	  <div class="form-group">
 	    <label for="customerEmail">Email address</label>
@@ -87,9 +91,9 @@
 		<div class="form-group">
 			<label for="ppp">Profile Placement Priority</label>
 			<select name="ppp" id="ppp">
-				<option value="volvo">Super</option>
-				<option value="saab">Good</option>
-				<option value="opel">User</option>
+				<option value="Super-User">Super</option>
+				<option value="Good-User">Good</option>
+				<option value="User-User">User</option>
 			</select>
 		</div>
 
@@ -106,11 +110,12 @@
 	  <button type="submit" class="btn btn-primary">Submit</button>
 	</form>
 	</div>
+	</c:if>
 	<div class="container pt-1">
 		<form action="home.jsp">
 			<input type="submit" value="Home" class="btn btn-success"/>
 		</form>
 	</div>
-
+	
 </body>
 </html>

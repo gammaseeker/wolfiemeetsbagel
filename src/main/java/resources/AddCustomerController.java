@@ -44,7 +44,6 @@ public class AddCustomerController extends HttpServlet {
 //		Modify and add fields as per requirement
 
 		String email = request.getParameter("customerEmail");
-		String password = request.getParameter("customerPassword");
 		String firstName = request.getParameter("customerFirstName");
 		String lastName = request.getParameter("customerLastName");
 		String address = request.getParameter("customerAddress");
@@ -55,10 +54,15 @@ public class AddCustomerController extends HttpServlet {
 		String ssn = request.getParameter("customerSSN");
 		String creditCard = request.getParameter("customerCreditCard");
 		int rating = Integer.parseInt(request.getParameter("customerRating"));
+		String password = request.getParameter("customerPassword");
+		String accNum = request.getParameter("customerAcc");
+		String acctCreateDate = request.getParameter("customerAccCreate");
+		String ppp = request.getParameter("ppp");
+		String dateOfLastAct = request.getParameter("customerLastActive");
+		
 		
 		Customer customer = new Customer();
 		customer.setEmail(email);
-		customer.setUserSSN("111-11-1111");
 		customer.setFirstName(firstName);
 		customer.setLastName(lastName);
 		customer.setAddress(address);
@@ -69,6 +73,11 @@ public class AddCustomerController extends HttpServlet {
 		customer.setUserID(ssn);
 		customer.setCreditCard(creditCard);
 		customer.setRating(rating);
+		customer.setPassword(password);
+		customer.setAccNum(accNum);
+		customer.setAccCreateDate(acctCreateDate);
+		customer.setPpp(ppp);
+		customer.setDateLastActive(dateOfLastAct);
 		
 		CustomerDao customerDao = new CustomerDao();
 		String result = customerDao.addCustomer(customer);
