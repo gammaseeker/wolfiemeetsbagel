@@ -210,10 +210,48 @@ public class CustomerDao {
 		 * The sample code returns "success" by default.
 		 * You need to handle the database insertion of the customer details and return "success" or "failure" based on result of the database insertion.
 		 */
+		PersonDao pd = new PersonDao();
+		if (pd.addPerson(new Person(customer)) == "failure") {
+			return "failure";
+		};
 		
-		/*Sample data begins*/
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+			
+			PreparedStatement insertUser = con.prepareStatement(
+				"INSERT INTO User VALUES (?,?,?,?)"
+			);
+			
+			insertUser.setString(1, customer.getUserID());
+			insertUser.setString(2, customer.getPpp());
+			insertUser.setInt(3, customer.getRating());
+			insertUser.setString(4, customer.getDateLastActive());
+			
+			int userRowsInserted = insertUser.executeUpdate();
+			if (userRowsInserted == 0) {
+				return "failure";
+			}
+			
+			PreparedStatement insertAccount = con.prepareStatement(
+				"INSERT INTO Account VALUES (?,?,?,?)"
+			);
+			
+			insertAccount.setString(1, customer.getUserID());
+			insertAccount.setString(2, customer.getCreditCard());
+			insertAccount.setString(3, customer.getAccNum());
+			insertAccount.setString(4, customer.getAccCreateDate());
+			
+			int accountRowsInserted = insertAccount.executeUpdate();
+			if (accountRowsInserted == 0) {
+				return "failure";
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e);
+			return "failure";
+		}
 		return "success";
-		/*Sample data ends*/
 
 	}
 
