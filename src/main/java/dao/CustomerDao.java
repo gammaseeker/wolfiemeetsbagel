@@ -232,23 +232,12 @@ public class CustomerDao {
 	}
 
 
-	/**
-	 * TODO add "Customer Activation Rate" whatever that means...
-	 */
 	public List<Customer>  getMostActiveUser(){
 		List<Customer> customers = new ArrayList<Customer>();
-
-		/*
-		 * This method fetches the all customer mailing details and returns it
-		 * The students code to fetch data from the database will be written here
-		 * Each customer record is required to be encapsulated as a "Customer" class object and added to the "customers" List
-		 */
 		
 		String query = ""
-				+ "SELECT P.SSN, FirstName, LastName, Street, City, State, "
-				+ "Zipcode, Email, Telephone "
-				+ "FROM Person P, User U "
-				+ "WHERE P.SSN = U.SSN "
+				+ "SELECT SSN, DateOfLastAct "
+				+ "FROM User "
 				+ "ORDER BY DateOfLastAct Desc "
 				+ "LIMIT 5";
 		ResultSet r = executeSelectQuery(query);
@@ -261,6 +250,7 @@ public class CustomerDao {
 			while (r.next()) {
 				Customer customer = new Customer();
 				customer.setUserSSN(r.getString("SSN"));
+				customer.setDateLastActive(r.getString("DateOfLastAct"));
 				customers.add(customer);
 			}
 
