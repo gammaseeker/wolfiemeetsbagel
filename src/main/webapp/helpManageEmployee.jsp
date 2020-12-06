@@ -22,9 +22,9 @@
 		<h2>Adding Employees</h2>
 		<div>
 			<div>To add an employee, click on the "Add Employee" button. </div>
-			<img src="imgs/addEmployee.png" width="50%" height="50%">
+			<!-- <img src="imgs/addEmployee.png" width="50%" height="50%"> -->
 			<div>Then enter the appropriate information for your new employee then hit submit.</div>
-			<img src="imgs/addEmployeeForm.png" width="60%" height="60%">
+			<!-- <img src="imgs/addEmployeeForm.png" width="60%" height="60%"> -->
 		</div>
 		<hr>
 		<h2>View Employees</h2>
