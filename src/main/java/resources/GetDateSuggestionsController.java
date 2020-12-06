@@ -37,15 +37,20 @@ public class GetDateSuggestionsController extends HttpServlet {
 		 * The data received from the getCustomers method is sent to the Customer Listing page as request attribute "customers"
 		 * This method redirects to the Customer Listing page
 		 */
-		
-//		String searchKeyword = request.getParameter("searchKeyword");
-		
 		CustomerDao dao = new CustomerDao();
+		
+		String userID;
+		if (request.getParameter("isCustomer") != null) {
+			userID = (String) request.getSession().getAttribute("customerID");
+		} else {
+			userID = request.getParameter("userID");
+		}
+		
 		List<Customer> customers = new ArrayList<Customer>(); 
-		customers = dao.getDateSuggestions("1234");
+		customers = dao.getDateSuggestions(userID);
 		
 		request.setAttribute("customers", customers);
-		request.setAttribute("userID", "1234");
+		request.setAttribute("userID", userID);
 
 		RequestDispatcher rd = request.getRequestDispatcher("showCustomerDateList.jsp");
 		rd.forward(request, response);

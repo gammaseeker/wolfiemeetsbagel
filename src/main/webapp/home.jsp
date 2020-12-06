@@ -58,7 +58,7 @@
 				// redirect to log in if not alreaddy logged in
 				response.sendRedirect("index.jsp");
 			}
-			out.print("Welcome "+profileID);
+			out.print("Welcome "+ profileID);
 
 			%>
 			<div class="row">
@@ -151,10 +151,10 @@
 									<input type="submit" value="Popular Geo Locations" class="btn btn-success"/>
 								</form>
 								<br/>
-								<form action="dateSuggestions">
+								<form action="getDateSuggestions">
 									<div class="form-group">
-										<input type="hidden" class="form-control" name="email" value=${email}>
 										<input type="hidden" class="form-control" name="profileID" value=${profileID}>
+										<input type="hidden" class="form-control" name="isCustomer" value=${"true"}>
 									</div>
 									<input type="submit" value="Suggested Dates" class="btn btn-success"/>
 								</form>
