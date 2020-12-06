@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import model.Customer;
@@ -472,6 +473,42 @@ public class CustomerDao {
 		}
 
 		return customers;
+	}
+	
+	public HashMap<Integer, String> getCustomerWithMaxRevenue() {
+		HashMap<Integer, String> result = new HashMap<Integer, String>();
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			
+			Statement st = con.createStatement();
+			String getCustomerWithMaxRevenue = "SELECT Profile1, SUM(BookingFee) AS Revenue "
+											+  "FROM Date "
+											+  "GROUP BY Profile1 "
+											+  "ORDER BY SUM(BookingFee) DESC "
+											+  "LIMIT 1;";
+			
+			ResultSet rs = st.executeQuery(getCustomerWithMaxRevenue);
+			int revenue = 0;
+			String profile1 = "";
+			if (rs.next()) {
+				profile1 = rs.getString("Profile1");
+				revenue = rs.getInt("Revenue");
+				Statement st2 = con.createStatement();
+				String getCustomerName = "SELECT FirstName, LastName "
+									+ "FROM Person "
+									+ "INNER JOIN profile ON profile.OwnerSSN=person.SSN "
+									+ "WHERE ProfileID=\'" + profile1 + "\';";
+				ResultSet rs2 = st2.executeQuery(getCustomerName);
+				if(rs2.next()) {
+					result.put(revenue, rs2.getString("FirstName") + " " + rs2.getString("LastName"));
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
+		return result;
 	}
 	
 	private ResultSet executeSelectQuery(String query) {
