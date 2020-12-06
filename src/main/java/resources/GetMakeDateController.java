@@ -36,11 +36,13 @@ public class GetMakeDateController extends HttpServlet {
 
 		String user1 = request.getParameter("from");
 		String user2 = request.getParameter("to");
+		String dateTime = request.getParameter("date");
+		String location = request.getParameter("Location");
 
 		System.out.println("From = "+user1+" to = "+user2);
 
 		DateDao dao = new DateDao();
-		String result = dao.setNewDate(user1,user2);
+		String result = dao.setNewDate(user1,user2, dateTime, location);
 		request.setAttribute("result", result);
 		RequestDispatcher rd = request.getRequestDispatcher("confirmNewDate.jsp");
 		rd.forward(request, response);

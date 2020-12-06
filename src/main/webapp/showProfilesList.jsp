@@ -76,6 +76,8 @@
 						<div class="form-group">
 							<input type="hidden" class="form-control" name="from" value=${profileID}>
 							<input type="hidden" class="form-control" name="to" value=${cd.profileID}>
+							<input type="text" class="form-control" id="date" name="date" placeholder="Enter date/time" required>
+							<input type="text" class="form-control" id="Location" name="Location" placeholder="Enter Location" required>
 			        	</div>
 						<input type="submit" value="Make a Date" class="btn btn-success"/>
 					</form>
