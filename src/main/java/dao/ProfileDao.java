@@ -134,6 +134,33 @@ public class ProfileDao {
     	}
     }
     
+    public List<Profile> getMostActiveProfiles() {
+    	List<Profile> profiles = new ArrayList<Profile>();
+    	String query = ""
+    			+ "SELECT P.ProfileID, U.DateOfLastAct "
+    			+ "FROM Profile P, User U "
+    			+ "WHERE P.OwnerSSN = U.SSN "
+    			+ "ORDER BY U.DateOfLastAct DESC";
+    	try {
+    		Class.forName(JDBC_DRIVER);
+    		Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+    		Statement st = con.createStatement();
+    		
+    		ResultSet rs = st.executeQuery(query);
+    		while (rs.next()) {
+    			Profile profile = new Profile();
+    			profile.setProfileID(rs.getString("ProfileID"));
+    			profile.setDateOfLastAct(rs.getString("DateOfLastAct"));
+    			profiles.add(profile);
+    		}
+    		
+    		return profiles;
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		return null;
+    	}
+    }
+    
     /**
      * 
      * @param query the Select query returning some subset of profiles.

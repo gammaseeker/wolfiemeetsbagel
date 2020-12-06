@@ -13,6 +13,15 @@ public class Profile {
 	private String geoRange;
 	private String ageRange;
 	private int rating;
+	private String dateOfLastAct;
+	
+	public String getDateOfLastAct() {
+		return dateOfLastAct;
+	}
+	
+	public void setDateOfLastAct(String dateOfLastAct) {
+		this.dateOfLastAct = dateOfLastAct;
+	}
 	
 	public int getRating() {
 		return rating;

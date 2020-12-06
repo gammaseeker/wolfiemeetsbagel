@@ -29,14 +29,14 @@
 			<thead>
 			<tr>
 				<th>Profile</th>
-				<th>Activation Rate</th>
+				<th>Date Last Active</th>
 			</tr>
 			</thead>
 			<tbody>
 			<c:forEach items="${profiles}" var="cd">
 				<tr>
-					<td>${cd}</td>
-					<td>${activationRate}</td>
+					<td>${cd.profileID}</td>
+					<td>${cd.dateOfLastAct}</td>
 				</tr>
 			</c:forEach>
 			</tbody>
