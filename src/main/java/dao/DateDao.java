@@ -169,7 +169,7 @@ public class DateDao {
 						String dateTime = rsFinal.getString("Date_Time");
 
 						Date date = new Date();
-						date.setDateID(rs.getString("DateID"));
+						date.setDateID(rsFinal.getString("DateID"));
 						date.setUser1ID(profile1);
 						date.setUser2ID(profile2);
 						date.setDate(dateTime);
@@ -601,6 +601,67 @@ public class DateDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        return dates;
+    }
+
+    public List<Date> getRevenueByCustomerName(String customerFirstName, String customerLastName) {
+
+        List<Date> dates = new ArrayList<Date>();
+
+        try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+			String innerQuery = 
+					"SELECT ProfileID "
+					+ "FROM profile "
+					+ "INNER JOIN person "
+					+ "ON profile.OwnerSSN = person.SSN "
+					+ "WHERE person.FirstName = \'"
+					+ customerFirstName + "\' "
+					+ "AND person.LastName = \'"
+					+ customerLastName + "\' ";
+			ResultSet rs = st.executeQuery(innerQuery);
+			while(rs.next()) {
+				String outerQuery = 
+						"SELECT * FROM date WHERE Profile1 = (\'" + rs.getString("ProfileID") + "\') OR Profile2 = (\'" + rs.getString("ProfileID") + "\')";
+				Statement st2 = con.createStatement();
+				ResultSet rsFinal = st2.executeQuery(outerQuery);
+				while(rsFinal.next()) {
+
+					Statement st3 = con.createStatement();
+					ResultSet rsCustRep = st3.executeQuery(""
+							+ "SELECT FirstName, LastName "
+							+ "FROM Person "
+							+ "WHERE SSN=\'" + rsFinal.getString("CustRep") + "\'");
+					if(rsCustRep.next()) {
+						String profile1 = rsFinal.getString("Profile1");
+						String profile2 = rsFinal.getString("Profile2");
+						String dateTime = rsFinal.getString("Date_Time");
+
+						Date date = new Date();
+						date.setDateID(rsFinal.getString("DateID"));
+						date.setUser1ID(profile1);
+						date.setUser2ID(profile2);
+						date.setDate(dateTime);
+						date.setGeolocation(rsFinal.getString("Location"));
+						date.setBookingfee(Integer.toString(rsFinal.getInt("BookingFee")));
+						date.setCustRepresentative(rsCustRep.getString("FirstName") + " " + rsCustRep.getString("LastName"));
+						date.setComments(rsFinal.getString("Comments"));
+						date.setUser1Rating(Integer.toString(rsFinal.getInt("User1Rating")));
+						date.setUser2Rating(Integer.toString(rsFinal.getInt("User2Rating")));
+						dates.add(date);
+					}
+				}
+			}
+
+			
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
         return dates;
     }
 }
