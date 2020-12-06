@@ -13,15 +13,16 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="viewport" content="width:device-width, initial-scale=1">
 	<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
-	<title>Help Generate a Sales Report </title>
+	<title>Help Backup Database</title>
 </head>
 <body>
-	<div class="container"> 
-		<h1>How to Generate a Sales Report</h1>
+	<div class="container">
+		<h1>How to backup your database</h1>
 		<div>
-			Click on the "Sales Report" button. 
-			Then enter a month and year and click on "Search". 
-			You will see a table of date records and the total income will be reported.
+			Click on the "Backup Database" button. Enter the proper database credentials for
+			the username and password to log into the database. Enter the name of the database you want to backup. Enter the desired
+			name of the backup file. You DO NOT have to append a ".sql" to the end of the name because the system will do that for you.
+			Hit submit to generate your backed up database which will be located in the directory "~/"
 		</div>
 	</div>
 

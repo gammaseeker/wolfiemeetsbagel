@@ -13,18 +13,20 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="viewport" content="width:device-width, initial-scale=1">
 	<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
-	<title>Help Manage Employees</title>
+	<title>Help View Dates</title>
 </head>
 <body>
-	<h1>How to View Dates</h1>
-	<div>
-		There are two ways to view dates. 
-		You may view a date by "Calendar Date" where you enter in a calendar date 
-		and will be given all the date records for that calendar date.
-	</div>
-	<div>
-		The other way to view a date is to search by customer first name and last name.
-		Enter a customer's first and last name to see all their dates.
+	<div class="container">
+		<h1>How to View Dates</h1>
+		<div>
+			There are two ways to view dates. 
+			You may view a date by "Calendar Date" where you enter in a calendar date 
+			and will be given all the date records for that calendar date.
+		</div>
+		<div>
+			The other way to view a date is to search by customer first name and last name.
+			Enter a customer's first and last name to see all their dates.
+		</div>
 	</div>
 
 <br/>

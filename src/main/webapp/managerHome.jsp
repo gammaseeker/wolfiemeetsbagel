@@ -17,7 +17,8 @@
 		<script>
 			function getHelp(){
 				var sel = document.getElementById('help');
-				var helpPages = ["helpManageEmployee.jsp", "helpManageUsers.jsp", "helpGenerateSales.jsp", "helpViewDates.jsp"];
+				var helpPages = ["helpManageEmployee.jsp", "helpManageUsers.jsp", 
+					"helpGenerateSales.jsp", "helpViewDates.jsp", "helpBackupDB.jsp"];
 
 				window.location.href = helpPages[sel.value];
 			}
@@ -34,6 +35,7 @@
 			<option value="1">Manage Users</option>
 			<option value="2">Generate a Sales Report </option>
 			<option value="3">View Dates</option>
+			<option value="4">Backup DB</option>
 		</select>
 		<div class="container">
 			<h3>Manager Options:</h3>
