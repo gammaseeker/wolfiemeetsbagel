@@ -17,10 +17,9 @@
 		<script>
 			function getHelp(){
 				var sel = document.getElementById('help');
-					
-				if(sel.value == "1"){
-					window.location.href = "helpManageEmployee.jsp";	
-				}
+				var helpPages = ["helpManageEmployee.jsp", "helpManageUsers.jsp", "helpGenerateSales.jsp", "helpViewDates.jsp"];
+
+				window.location.href = helpPages[sel.value];
 			}
 		</script>
 	</head>
@@ -31,10 +30,10 @@
 		<label for="help">Help Topics</label>
 		<select name="help" id="help" onchange="getHelp();">
 			<option value="">Help... </option>
-			<option value="1">Manage Employees</option>
-			<option value="2">Manage Users</option>
-			<option value="3">Generate a Sales Report </option>
-			<option value="4">View Dates</option>
+			<option value="0">Manage Employees</option>
+			<option value="1">Manage Users</option>
+			<option value="2">Generate a Sales Report </option>
+			<option value="3">View Dates</option>
 		</select>
 		<div class="container">
 			<h3>Manager Options:</h3>
