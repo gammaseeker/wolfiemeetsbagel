@@ -17,7 +17,7 @@
 </head>
 <body>
 	<div>
-	<h1>The users dated by <c:out value = "${primary}"/> are:</h1>
+	<h1>The users dated by the customer with SSN <c:out value = "${primary}"/> are:</h1>
 	<c:if test="${empty customers}">
 		<h3> Users not found! <h3/>
 	</c:if>
@@ -25,15 +25,15 @@
 		<table class="table table-striped">
 		  <thead>
 		    <tr>
-				<th>Customer ID</th>
-				<th>SSN</th>
+				<th>Customer SSN</th>
+				<th>Customer Name</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		     <c:forEach items="${customers}" var="cd">
 		       <tr>
-				   <td>${cd.userID}</td>
 				   <td>${cd.userSSN}</td>
+				   <td>${cd.firstName} ${cd.lastName}</td>
 		       </tr>
 		     </c:forEach>
 		  </tbody>
