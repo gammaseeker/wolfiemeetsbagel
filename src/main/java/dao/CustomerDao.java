@@ -189,15 +189,28 @@ public class CustomerDao {
 	}
 
 
-	public String getCustomerID(String username) {
-		/*
-		 * This method returns the Customer's ID based on the provided email address
-		 * The students code to fetch data from the database will be written here
-		 * username, which is the email address of the customer, who's ID has to be returned, is given as method parameter
-		 * The Customer's ID is required to be returned as a String
-		 */
+	public String getCustomerID(String profileID) {
+		
+		String query = ""
+				+ "SELECT OwnerSSN FROM Profile WHERE ProfileID=?";
+		
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, profileID);
+			
+			ResultSet r = ps.executeQuery();
+			if (r == null || !r.next()) {
+				return null;
+			}
+			
+			return r.getString("OwnerSSN");
 
-		return "111-11-1111";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 
@@ -412,38 +425,51 @@ public class CustomerDao {
 
 
 	public List<Customer> getDateSuggestions(String userID) {
-		/*
-		 * This method fetches one or more customers and returns it as an ArrayList
-		 */
-
 		List<Customer> customers = new ArrayList<Customer>();
+		
+		String query = ""
+				+ "SELECT DISTINCT P.SSN, FirstName, LastName, Street, City, State, "
+				+ "Zipcode, Email, Telephone, Rating, CardNumber "
+				+ "FROM ("
+					+ "SELECT P2.OwnerSSN AS MatchingProfileSSN "
+					+ "FROM Profile P1, Profile P2 "
+					+ "WHERE "
+					+ "((P1.M_F = \"MALE\" AND P2.M_F = \"FEMALE\" AND P1.Height > P2.Height AND P1.Weight > P2.Weight) "
+					+ "OR  (P1.M_F = \"FEMALE\" AND P2.M_F = \"MALE\" AND P1.Height < P2.Height AND P1.Weight < P2.Weight)) "
+					+ "AND P1.OwnerSSN = ?"
+				+ ") Result, Person P, User U, Account A "
+				+ "WHERE Result.MatchingProfileSSN = P.SSN "
+				+ "AND P.SSN = U.SSN "
+				+ "AND P.SSN = A.OwnerSSN";
+		
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, userID);
+			
+			ResultSet r = ps.executeQuery();
+			
+			while (r.next()) {
+				Customer customer = new Customer();
+				customer.setUserID(r.getString("SSN"));
+				customer.setFirstName(r.getString("FirstName"));
+				customer.setLastName(r.getString("LastName"));
+				customer.setAddress(r.getString("Street"));
+				customer.setCity(r.getString("City"));
+				customer.setState(r.getString("State"));
+				customer.setZipCode(r.getInt("Zipcode"));
+				customer.setEmail(r.getString("Email"));
+				customer.setTelephone(r.getString("Telephone"));
+				customer.setCreditCard(r.getString("CardNumber"));
+				customer.setRating(r.getInt("Rating"));
+				customers.add(customer);
+			}
 
-		/*
-		 * The students code to fetch data from the database will be written here
-		 * Each record is required to be encapsulated as a "Customer" class object and added to the "customers" List
-		 */
-
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Customer customer = new Customer();
-			customer.setUserID("111-11-1111");
-			customer.setFirstName("long");
-			customer.setLastName("Lu");
-			customer.setAddress("123 Success Street12");
-			customer.setCity("Stony Brook");
-			customer.setState("NY");
-			customer.setZipCode(11790);
-			customer.setTelephone("5166328959");
-			customer.setEmail("shiyong@cs.sunysb.edu");
-			customer.setAccNum("12345");
-			customer.setAccCreateDate("12-12-2020");
-			customer.setCreditCard("1234567812345678");
-			customer.setPpp("User");
-			customer.setRating(1);
-			customer.setDateLastActive("12-12-2020");
-			customers.add(customer);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		/*Sample data ends*/
 
 		return customers;
 	}

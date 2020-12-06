@@ -27,7 +27,7 @@
 	<div>
 	<h1>The Date Suggestions for ID <c:out value = "${userID}"/>  are:</h1>
 	<c:if test="${empty customers}">
-		<h3> Customer details not found! <h3/> 
+		<h3> There are no date suggestions for this customer at this time! <h3/> 
 	</c:if>
 	<c:if test="${not empty customers}">
 		<table class="table table-striped">

@@ -45,9 +45,9 @@
 			<c:forEach items="${profileIDs}" var="cd">
 				<form method="POST" action="setCustomerProfile">
 					<div class="form-group">
-						<input type="hidden" class="form-control" name="profileID" value=${cd}> 
+						<input type="hidden" class="form-control" name="profileID" value="${cd}"> 
 					</div>
-					<input type="submit" value=${cd} class="btn btn-success"/>
+					<input type="submit" value="${cd}" class="btn btn-success"/>
 				</form>
 		    </c:forEach>
 		</div>
