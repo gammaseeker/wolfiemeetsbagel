@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Customer;
+import model.Person;
 import model.Profile;
 import model.Customer;
 
@@ -217,17 +218,53 @@ public class CustomerDao {
 	}
 
 	public String editCustomer(Customer customer) {
-		/*
-		 * All the values of the edit customer form are encapsulated in the customer object.
-		 * These can be accessed by getter methods (see Customer class in model package).
-		 * e.g. firstName can be accessed by customer.getFirstName() method.
-		 * The sample code returns "success" by default.
-		 * You need to handle the database update and return "success" or "failure" based on result of the database update.
-		 */
 		
-		/*Sample data begins*/
+		PersonDao pd = new PersonDao();
+		if (pd.editPerson(new Person(customer)) == "failure") {
+			return "failure";
+		};
+		
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+			
+			PreparedStatement updateUser = con.prepareStatement(
+					"UPDATE User "
+				  + "SET PPP=?, "
+				  +     "Rating=?, "
+				  + 	"DateOfLastAct=? "
+				  + "WHERE SSN=?;");
+			
+			updateUser.setString(1, customer.getPpp());
+			updateUser.setInt(2, customer.getRating());
+			updateUser.setString(3, customer.getDateLastActive());
+			updateUser.setString(4, customer.getUserID());
+			int userRowsUpdated = updateUser.executeUpdate();
+			if (userRowsUpdated == 0) {
+				return "failure";
+			}
+			
+			PreparedStatement updateAccount = con.prepareStatement(
+					"UPDATE Account "
+				  + "SET CardNumber=?, "
+				  +     "AcctNum=?, "
+				  + 	"AcctCreateDate=? "
+				  + "WHERE OwnerSSN=?;");
+			
+			updateAccount.setString(1, customer.getCreditCard());
+			updateAccount.setString(2, customer.getAccNum());
+			updateAccount.setString(3, customer.getAccCreateDate());
+			updateAccount.setString(4, customer.getUserID());
+			int accountRowsUpdated = updateAccount.executeUpdate();
+			if (accountRowsUpdated == 0) {
+				return "failure";
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e);
+			return "failure";
+		}
 		return "success";
-		/*Sample data ends*/
 
 	}
 
@@ -388,7 +425,5 @@ public class CustomerDao {
     		return null;
     	}
 	}
-	
-
 
 }
