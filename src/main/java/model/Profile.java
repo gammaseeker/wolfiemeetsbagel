@@ -12,6 +12,15 @@ public class Profile {
 	private String photo;
 	private String geoRange;
 	private String ageRange;
+	private int rating;
+	
+	public int getRating() {
+		return rating;
+	}
+	
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
 
 	public String getProfileID() {
 		return profileID;
