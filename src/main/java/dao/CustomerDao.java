@@ -189,23 +189,23 @@ public class CustomerDao {
 	}
 
 
-	public String getCustomerID(String profileID) {
+	public String getCustomerID(String email) {
 		
 		String query = ""
-				+ "SELECT OwnerSSN FROM Profile WHERE ProfileID=?";
+				+ "SELECT SSN FROM Person WHERE Email=?";
 		
 		try {
 			Class.forName(JDBC_DRIVER);
 			Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 			PreparedStatement ps = con.prepareStatement(query);
-			ps.setString(1, profileID);
+			ps.setString(1, email);
 			
 			ResultSet r = ps.executeQuery();
 			if (r == null || !r.next()) {
 				return null;
 			}
 			
-			return r.getString("OwnerSSN");
+			return r.getString("SSN");
 
 		} catch (Exception e) {
 			e.printStackTrace();

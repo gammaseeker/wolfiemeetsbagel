@@ -41,8 +41,7 @@ public class GetDateSuggestionsController extends HttpServlet {
 		
 		String userID;
 		if (request.getParameter("isCustomer") != null) {
-			String profileID = request.getParameter("profileID");
-			userID = dao.getCustomerID(profileID);
+			userID = (String) request.getSession().getAttribute("customerID");
 		} else {
 			userID = request.getParameter("userID");
 		}
