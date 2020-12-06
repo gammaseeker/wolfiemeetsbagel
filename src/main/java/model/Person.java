@@ -18,6 +18,7 @@ public class Person {
     //Construct a person for the corresponding customer
     public Person (Customer c) {
     	this.setPersonID(c.getUserID());
+    	this.setPassword(c.getPassword());
 		this.setFirstName(c.getFirstName());
 		this.setLastName(c.getLastName());
 		this.setStreet(c.getAddress());
