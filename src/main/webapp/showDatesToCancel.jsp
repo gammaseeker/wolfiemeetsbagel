@@ -48,25 +48,17 @@
 		         <td>${cd.geolocation}</td>
 		         <td>${cd.bookingfee}</td>
 		         <td>${cd.custRepresentative}</td>
-		         <td>
-					 <form method="POST" action="commentThisDate">
-						 <div class="form-group">
-							 <input type="hidden" class="form-control" name="dateID" value=${cd.dateID}>
-						 </div>
-						 <input type="text" id="comment" name="comment" value=${cd.comments}><br/>
-						 <input type="submit" value="Comment" class="btn btn-success"/>
-					 </form>
-				 </td>
+		         <td>${cd.comments}</td>
 		         <td>${cd.user1Rating}</td>
 		         <td>${cd.user2Rating}</td>
-				   <td>
-					   <form method="POST" action="cancelThisDate">
-						   <div class="form-group">
-							   <input type="hidden" class="form-control" name="dateID" value=${cd.dateID}>
-						   </div>
-						   	<input type="submit" value="Cancel Date" class="btn btn-success"/>
-					   </form>
-				   </td>
+				 <td>
+				 	<form method="POST" action="cancelThisDate">
+						<div class="form-group">
+							<input type="hidden" class="form-control" name="dateID" value=${cd.dateID}>
+						</div>
+							<input type="submit" value="Cancel Date" class="btn btn-success"/>
+					</form>
+				</td>
 			   </tr>
 		     </c:forEach>
 		  </tbody>

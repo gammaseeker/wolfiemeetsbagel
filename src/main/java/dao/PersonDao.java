@@ -6,6 +6,7 @@ import model.Person;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,6 +94,17 @@ public class PersonDao {
 	 * @return "success"|"failure"
 	 */
 	public String deletePerson(String ssn) {
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			Statement st = con.createStatement();
+			String deletePerson= "DELETE FROM Person WHERE SSN='" + ssn + "';";
+			
+			st.executeUpdate(deletePerson);
+		} catch (Exception e) {
+			System.out.println(e);
+			return "failure";
+		}
 		return "success";
 	}
 

@@ -92,9 +92,9 @@ public class EmployeeDao {
 		 * You need to handle the database deletion and return "success" or "failure" based on result of the database deletion.
 		 */
 		
-		/*Sample data begins*/
-		return "success";
-		/*Sample data ends*/
+		PersonDao personDao = new PersonDao();
+		String result = personDao.deletePerson(employeeID);
+		return result;
 
 	}
 
@@ -177,7 +177,54 @@ public class EmployeeDao {
 		 * username, which is the Employee's email address who's Employee ID has to be fetched, is given as method parameter
 		 * The Employee ID is required to be returned as a String
 		 */
-
-		return "111-11-1111";
+		String result = "";
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			
+			Statement st = con.createStatement();
+			String getEmployeeID = "SELECT E.SSN "
+								+  "FROM Person P, Employee E "
+								+  "WHERE P.SSN=E.SSN AND P.Email='" + username + "';";
+			
+			ResultSet rs = st.executeQuery(getEmployeeID);
+			if (rs.next()) { 
+				result = rs.getString("SSN");
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return result;
+	}
+	
+	public Employee getEmployeeWithMaxRevenue() {
+		Employee employee = new Employee();
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
+			
+			Statement st = con.createStatement();
+			String getEmployeeWithMaxRevenue = "SELECT CustRep, SUM(BookingFee) AS Revenue "
+											+  "FROM Date "
+											+  "GROUP BY CustRep "
+											+  "ORDER BY SUM(BookingFee) DESC "
+											+  "LIMIT 1;";
+			
+			ResultSet rs = st.executeQuery(getEmployeeWithMaxRevenue);
+			int revenue = 0;
+			String ssn = "";
+			if (rs.next()) {
+				ssn = rs.getString("CustRep");
+				revenue = rs.getInt("Revenue");
+			}
+			if (!ssn.equals("")) {
+				employee = this.getEmployee(ssn);
+				employee.setRevenue(String.valueOf(revenue));
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
+		return employee;
 	}
 }

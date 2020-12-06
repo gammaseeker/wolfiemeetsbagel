@@ -37,11 +37,11 @@ public class GetOpenDatesController extends HttpServlet {
          * This method redirects to the Customer Listing page
          */
 
-//		String searchKeyword = request.getParameter("calendar_date");
+		String profileID = request.getParameter("profileID");
 
         DateDao dao = new DateDao();
         List<Date> dates = new ArrayList<>();
-        dates = dao.getOpenDates();
+        dates = dao.getOpenDates(profileID);
 
         request.setAttribute("dates", dates);
         RequestDispatcher rd = request.getRequestDispatcher("showOpenDates.jsp");
