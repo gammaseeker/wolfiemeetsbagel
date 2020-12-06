@@ -288,15 +288,44 @@ public class DateDao {
         return dates;
     }
 
-    public String setNewDate(String user1, String user2) {
+    public String setNewDate(String user1, String user2, String dateTime, String location) {
     	try {
+    		int user1Rating = -1;
+    		int user2Rating = -1;
+
 			Class.forName(JDBC_DRIVER);
 			Connection con = DriverManager.getConnection(DB_URL, "root", "root");
 			Statement st = con.createStatement();
-			st.execute(""
-					+ "INSERT INTO date (Profile1, Profile2, Date_Time) VALUES (\'"
+			ResultSet rs = st.executeQuery(""
+					+ "SELECT Rating "
+					+ "FROM user "
+					+ "WHERE SSN = "
+					+ "(SELECT OwnerSSN "
+					+ "FROM profile "
+					+ "WHERE ProfileID = \'" + user1 + "\')");
+			if(rs.next()) {
+				user1Rating = rs.getInt("Rating");
+			}
+
+			rs = st.executeQuery(""
+					+ "SELECT Rating "
+					+ "FROM user "
+					+ "WHERE SSN = "
+					+ "(SELECT OwnerSSN "
+					+ "FROM profile "
+					+ "WHERE ProfileID = \'" + user2 + "\')");
+			if(rs.next()) {
+				user2Rating = rs.getInt("Rating");
+			}
+			Statement st2 = con.createStatement();
+			st2.execute(""
+					+ "INSERT INTO date (Profile1, Profile2, Date_Time, Location, User1Rating, User2Rating) VALUES (\'"
 					+ user1 + "\', \'"
-					+ user2 + "\', CURRENT_TIMESTAMP)"); // TODO update front end to allow user to specify date time
+					+ user2 + "\', \'"
+					+ dateTime + "\', \'"
+				    + location + "\', \'"
+				    + user1Rating + "\', \'"
+				    + user2Rating + "\')");
     	} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
