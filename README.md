@@ -11,6 +11,7 @@ This document will serve as documentation for all improvements that were made to
 
 ## Overall Improvements
 
+* Added WolfieMeetsBagel logo to home page.
 
 ## User Side
 
@@ -46,7 +47,3 @@ This feature only displays one customer and the revenue they generated
 
 * Updated customer side to show only the names and contact information of people they are suggested to go on a date with, to make consistent with our understanding of what a date suggestion is
 * Unified customer representative and customer side into one controller and JSP page, removing duplicity from system
-
-## Customer Representative Side
-
-
