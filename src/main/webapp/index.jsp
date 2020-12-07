@@ -18,7 +18,7 @@
         <title>Login | Online Dating Website</title>
 	</head>
 	<body>
-	
+		<img src="img/wolfiemeetsbagel.png" style="display:block;margin-left:auto;margin-right:auto;width:25%;">
 		<h2 style="text-align: center;padding: 3%;">Welcome to the Online Dating Website</h2>
 		<div class="container indxContainer">
 			<h3>Login</h3>
