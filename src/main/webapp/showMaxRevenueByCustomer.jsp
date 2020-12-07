@@ -24,10 +24,10 @@
 		<div class="row" style="text-align: center;border: 2px solid;padding: 5%;display: block;">
 	<h4>Max Revenue: <c:out value = "${revenue}"/></h4>
 			<br/>
-	 <c:if test="${empty customers}">
+	 <c:if test="${empty customer}">
 		<h3> Customers not found! <h3/>
 	</c:if>
-	<c:if test="${not empty customers}">
+	<c:if test="${not empty customer}">
 		<table class="table table-striped">
 		  <thead>
 		    <tr>
@@ -35,7 +35,7 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		     <c:forEach items="${customers}" var="cd">
+		     <c:forEach items="${customer}" var="cd">
 		       <tr>
 		         <td>${cd}</td>
 		         <td></td>

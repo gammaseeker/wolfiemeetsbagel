@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -33,23 +34,15 @@ public class GetMaxRevenueCustomerController extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*
-         *
-         * This data is sent to the getCustomers method in the dao.CustomerDao class
-         * The data received from the getCustomers method is sent to the Customer Listing page as request attribute "customers"
-         * This method redirects to the Customer Listing page
-         */
 
 
-        // This is just a sample. Use your own logic to get data from apt daos.
+    	CustomerDao customerDao = new CustomerDao();
+    	HashMap<Integer, String> resultCustomer = customerDao.getCustomerWithMaxRevenue();
+    	int revenue = (int) resultCustomer.keySet().toArray()[0];
 
-        List<String> customers = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++)
-            customers.add("Hardik Pandya");
-
-        request.setAttribute("customers", customers);
-        request.setAttribute("revenue", "2000");
+        request.setAttribute("customer", resultCustomer.get(revenue));
+        request.setAttribute("revenue", revenue);
 
         RequestDispatcher rd = request.getRequestDispatcher("showMaxRevenueByCustomer.jsp");
         rd.forward(request, response);
