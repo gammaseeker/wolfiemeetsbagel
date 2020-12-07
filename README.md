@@ -11,7 +11,6 @@ This document will serve as documentation for all improvements that were made to
 
 ## Overall Improvements
 
-TODO Document Changes
 
 ## User Side
 
@@ -33,7 +32,21 @@ This feature only displays one customer and the revenue they generated
 * Changed the search functionality to be by SSN since that is the primary key for customers
 * Display SSN and name of the dated users, since a manager would probably like to see names here
 
+### Add Customer
+
+* Removed erroneous email constraint on SSN
+* Included error message if something goes wrong when submitting so that the user knows the customer was not added
+
+### Edit Customer
+
+* Made SSN readonly, since a user's SSN cannot change
+* Included error message if something goes wrong when submitting so that the user knows the customer was not added
+
+### Show Date Suggestions
+
+* Updated customer side to show only the names and contact information of people they are suggested to go on a date with, to make consistent with our understanding of what a date suggestion is
+* Unified customer representative and customer side into one controller and JSP page, removing duplicity from system
+
 ## Customer Representative Side
 
-TODO Document Changes to Cust Rep Side
 
