@@ -328,7 +328,7 @@ public class CustomerDao {
 		List<Customer> customers = new ArrayList<Customer>();
 		
 		String query = ""
-				+ "SELECT SSN "
+				+ "SELECT SSN, DateOfLastAct "
 				+ "FROM User "
 				+ "ORDER BY DateOfLastAct Desc "
 				+ "LIMIT 5";
@@ -342,6 +342,7 @@ public class CustomerDao {
 			while (r.next()) {
 				Customer customer = new Customer();
 				customer.setUserSSN(r.getString("SSN"));
+				customer.setDateLastActive(r.getString("DateOfLastAct"));
 				customers.add(customer);
 			}
 
